@@ -40,3 +40,13 @@
 0x5400F0 = word: tscreen_press_start_img
 0x540100 = word: tscreen_press_start_pal
 0x540048 = word: blank_64x64_img
+
+# boot screen hooks
+
+0x16CCAC = word: boot_screen_img
+0x16CCB0 = word: boot_screen_map
+0x16CCB4 = word: boot_screen_pal
+
+0x16CD60 = word: bootscreen_temphook1
+
+0x16CD8E = word: bootscreen_temphook2
