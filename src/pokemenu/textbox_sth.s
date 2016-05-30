@@ -91,7 +91,7 @@ pokemenu_textbox_sth:
     MOV     R1, R9
     LDR     R0, [R1]
     MOV     R1, R12
-    SUB     R1, #0x20 @ ' '
+    SUB     R1, #0x20
     STR     R1, [R0]
     CMP     R7, #3
     BNE     .Lstore_sth
@@ -128,6 +128,6 @@ pokemenu_textbox_sth:
     
     BX      R1
 
-@ End of function sub_081B0740
+@ End of function pokemenu_textbox_sth
 
 @ ---------------------------------------------------------------------------
