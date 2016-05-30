@@ -13,11 +13,9 @@
 *.out
 *.elf
 *.bin
-*.pyc
-*.sgm
-*.nlz
 *.gba.*
-*.gba.
+*.pyc
+*.nlz
 *.psd
 *.dib
 *.bmp
@@ -27,6 +25,11 @@
 *.aps
 *.patch
 *.exe
-/rom
+/rom/ruby.*
+/rom/ruby_.*
+/rom/fire.*
+/rom/fire_.*
+/rom/emer.*
+/rom/emer_.*
 /asmx
 /frames
