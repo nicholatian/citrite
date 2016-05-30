@@ -208,8 +208,8 @@ pokemenu_switch:
 
 .Lcase5:
     
-    LDR     R4, =checkbyte_from_52stack_etc
-    BL      .Llinker
+    @LDR     R4, =checkbyte_from_52stack_etc
+    @BL      .Llinker
     
     CMP     R0, #0
     BEQ     .Linit_loadsuper
@@ -258,14 +258,14 @@ pokemenu_switch:
 
 .Lcase7:
     
-    LDR     R4, =pokemenu_setup_gfx
-    BL      .Llinker
+    @LDR     R4, =pokemenu_setup_gfx
+    @BL      .Llinker
     
     CMP     R0, #0
     BNE     .Llastitem_0x218
     
-    LDR     R4, =pokemenu_fadescr_addtask
-    BL      .Llinker
+    @LDR     R4, =pokemenu_fadescr_addtask
+    @BL      .Llinker
     
     MOV     R0, #1
     B       .Lreturn
@@ -293,8 +293,8 @@ pokemenu_switch:
 
 .Lcase8:
     
-    LDR     R4, =pokemenu_decompress_stuff
-    BL      .Llinker
+    @LDR     R4, =pokemenu_decompress_stuff
+    @BL      .Llinker
     
     CMP     R0, #0
     BNE     .Lsuper_0x438
@@ -322,12 +322,12 @@ pokemenu_switch:
 
 .Lcase9:
     
-    LDR     R0, =dword_0203CEC8
+    LDR     R0, =0x203CEC8
     LDRB    R0, [R0,#8]
     LSL     R0, R0, #0x1A
     LSR     R0, R0, #0x1E
-    LDR     R4, =pokemenu_textbox_init
-    BL      .Llinker
+    @LDR     R4, =pokemenu_textbox_init
+    @BL      .Llinker
     
     B       .Lloadsuper
 
@@ -344,12 +344,12 @@ pokemenu_switch:
 
 .Lcase10:
     
-    LDR     R0, =dword_0203CEC8
+    LDR     R0, =0x203CEC8
     LDRB    R0, [R0,#8]
     LSL     R0, R0, #0x1A
     LSR     R0, R0, #0x1E
-    LDR     R4, =pokemenu_textbox_sth
-    BL      .Llinker
+    @LDR     R4, =pokemenu_textbox_sth
+    @BL      .Llinker
     
     B       .Llastitem_0x218
 
@@ -366,8 +366,8 @@ pokemenu_switch:
 
 .Lcase11:
     
-    LDR     R4, =pokemenu_load_item_minisprite
-    BL      .Llinker
+    @LDR     R4, =pokemenu_load_item_minisprite
+    @BL      .Llinker
     
     B       .Lsuper_0x438
 
@@ -384,8 +384,8 @@ pokemenu_switch:
 
 .Lcase12:
     
-    LDR     R4, =pokemenu_load_pokeball_sidebtn
-    BL      .Llinker
+    @LDR     R4, =pokemenu_load_pokeball_sidebtn
+    @BL      .Llinker
     
     B       .Lloadsuper
 
@@ -393,8 +393,8 @@ pokemenu_switch:
 
 .Lcase13:
     
-    LDR     R4, =pokemenu_load_status_badges
-    BL      .Llinker
+    @LDR     R4, =pokemenu_load_status_badges
+    @BL      .Llinker
     
     B       .Lsuper_0x438
 
@@ -411,8 +411,8 @@ pokemenu_switch:
 
 .Lcase14:
     
-    LDR     R4, =pokemenu_load_sprpals
-    BL      .Llinker
+    @LDR     R4, =pokemenu_load_sprpals
+    @BL      .Llinker
     
     B       .Lloadsuper
 
@@ -420,8 +420,8 @@ pokemenu_switch:
 
 .Lcase15:
     
-    LDR     R4, =pokemenu_get_pokedata_lastitem
-    BL      .Llinker
+    @LDR     R4, =pokemenu_get_pokedata_lastitem
+    @BL      .Llinker
     
     CMP     R0, #0
     BNE     .Llastitem_0x218
@@ -441,8 +441,8 @@ pokemenu_switch:
 
 .Lcase16:
     
-    LDR     R4, =sub_081B0DA0
-    BL      .Llinker
+    @LDR     R4, =sub_081B0DA0
+    @BL      .Llinker
     
     CMP     R0, #0
     BEQ     .Lsetret_false
@@ -462,8 +462,8 @@ pokemenu_switch:
 
 .Lcase17:
     
-    LDR     R4, =sub_081B0F28
-    BL      .Llinker
+    @LDR     R4, =sub_081B0F28
+    @BL      .Llinker
     
     B       .Lsuper_0x438
 
@@ -483,8 +483,8 @@ pokemenu_switch:
     LDR     R0, =(last_used_item_maybe+0x48)
     LDR     R0, [R0]
     LDRB    R0, [R0,#8] @ this is a bool value
-    LDR     R4, =sub_081B2428
-    BL      .Llinker
+    @LDR     R4, =sub_081B2428
+    @BL      .Llinker
     
     B       .Lloadsuper
 
@@ -542,10 +542,10 @@ pokemenu_switch:
     NEG     R0, R0
     MOV     R1, #0x10
     MOV     R2, #0
-    LDR     R4, =sub_080A2A20
+    @LDR     R4, =sub_080A2A20
     BL      .Llinker
     
-    LDR     R2, =dword_02037FD4
+    LDR     R2, =0x2037FD4
     LDRB    R1, [R2,#8]
     MOV     R0, #0x7F
     AND     R0, R1
@@ -601,11 +601,11 @@ pokemenu_switch:
 
 .Lcase_default:
     
-    LDR     R0, =sub_081B01CC
+    @LDR     R0, =sub_081B01CC
     LDR     R4, =vblank_handler_set
     BL      .Llinker
     
-    LDR     R0, =sub_081B01B0
+    @LDR     R0, =sub_081B01B0
     LDR     R4, =set_callback2
     BL      .Llinker
     

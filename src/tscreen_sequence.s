@@ -19,6 +19,10 @@
 .file "tscreen_sequence.s"
 .ident "AS: (devkitARM release 45) 2.25.1"
 
+@ fix this later
+.equ bootscreen_temphook1, 0x02C92113
+.equ bootscreen_temphook2, 0x02092113
+
 .equ tscreen_img_vramoffs, 0x4000
 .equ tscreen_map_vramoffs, 0xE000
 
@@ -51,7 +55,7 @@ tscreen_sequence:
     ADD     R0, R0, R1
     LDRB    R0, [R0]
     CMP     R0, #5
-    BHI     .Lpart_a
+    BHI     .Lpart1
     LSL     R0, R0, #2
     LDR     R1, =.Ljpt
     ADD     R0, R0, R1
@@ -69,7 +73,7 @@ tscreen_sequence:
     .word   .Lpart1
     .word   .Lgenerator
     .word   .Lpart3
-    .word   .Lpart4d
+    .word   .Lpart4
     .word   .Lioregs
     .word   .Lpart6
 

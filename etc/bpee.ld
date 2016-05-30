@@ -20,6 +20,7 @@
 
 io_dma3sad           = 0x40000D4;
 tasks                = 0x3005E00;
+super                = 0x30022C0;
 textflags            = 0x3003014;
 last_used_item_maybe = 0x203CE7C;
 

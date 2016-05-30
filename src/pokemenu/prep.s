@@ -37,8 +37,8 @@ pokemenu_prep:
     CMP     R0, #1
     BEQ     .Lsetret_one
     
-    LDR     R1, =checkbyte_from_5500stack
-    BL      .Llinker
+    @LDR     R1, =checkbyte_from_5500stack
+    @BL      .Llinker
     
     CMP     R0, #1
     BNE     .Lsetret_zero

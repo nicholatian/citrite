@@ -33,8 +33,8 @@
 @@
 @@ max call depth: 0
 
-.globl groundzero_warn_sign
 .balign 4, 0
+.globl radioactive_sign
 
 radioactive_sign:
     
@@ -48,8 +48,8 @@ radioactive_sign:
 @@
 @@ max call depth: 0
 
-.globl rudyhouse_sign
 .balign 4, 0
+.globl rudyhouse_sign
 
 rudyhouse_sign:
     
@@ -63,8 +63,8 @@ rudyhouse_sign:
 @@
 @@ max call depth: 0
 
-.globl tb_canary_camper
 .balign 4, 0
+.globl tb_canary_camper
 
 tb_canary_camper:
     
@@ -79,8 +79,8 @@ tb_canary_camper:
 @@
 @@ max call depth: 0
 
-.globl tb_canary_pokefan
 .balign 4, 0
+.globl tb_canary_pokefan
 
 tb_canary_pokefan:
     
@@ -95,8 +95,8 @@ tb_canary_pokefan:
 @@
 @@ max call depth: 0
 
-.globl canary_itemball1
 .balign 4, 0
+.globl canary_itemball1
 
 canary_itemball1:
     
@@ -111,8 +111,8 @@ canary_itemball1:
 @@
 @@ max call depth: 0
 
-.globl canary_itemball2
 .balign 4, 0
+.globl canary_itemball2
 
 canary_itemball2:
     
@@ -127,8 +127,8 @@ canary_itemball2:
 @@
 @@ max call depth: 0
 
-.globl canary_itemball3
 .balign 4, 0
+.globl canary_itemball3
 
 canary_itemball3:
     
@@ -143,20 +143,20 @@ canary_itemball3:
 @@
 @@ max call depth: 1
 
-.globl canarybattle
 .balign 4, 0
+.globl canary_brawl
 
-canarybrawl:
+canary_brawl:
     
     s_lockall
-    s_move PLAYER .Lbattle_moveback
+    s_move PLAYER .Lbrawl_moveback
     s_waitmove 0x0
-    s_storepokemon 0x0 ZIGZAGOON
-    s_storeattack 0x1 TACKLE
+    s_bufferpoke 0x0 ZIGZAGOON
+    s_bufferattack 0x1 TACKLE
     s_loadptr 0x0 canary_brawl_usetackle
     s_callstd MSG_STANDARD
     s_pause 0x28
-    s_move CANARYBATTLE_ZIGZAGOON .Lbattle_tackle
+    s_move CANARYBATTLE_ZIGZAGOON .Lbrawl_tackle
     s_pause 0x18
     s_setvar 0x8000 CANARYBATTLE_TRAINER
     s_setvar 0x8001 true
@@ -169,7 +169,7 @@ canarybrawl:
     
     .byte 0x08, 0x08, 0x22, 0xFE
 
-.Lbattle_tackle:
+.Lbrawl_tackle:
     
     .byte 0x45, 0x40, 0x17, 0x17, 0x41, 0xFE
 
@@ -179,8 +179,8 @@ canarybrawl:
 @@
 @@ max call depth: 0
 
-.globl canary_zigzagoon
 .balign 4, 0
+.globl canary_zigzagoon
 
 canary_zigzagoon:
     
@@ -200,8 +200,8 @@ canary_zigzagoon:
 @@
 @@ max call depth: 0
 
-.globl canary_skitty
 .balign 4, 0
+.globl canary_skitty
 
 canary_skitty:
     
@@ -221,8 +221,8 @@ canary_skitty:
 @@
 @@ max call depth: 0
 
-.globl canary_redtrainer
 .balign 4, 0
+.globl canary_redtrainer
 
 canary_redtrainer:
     

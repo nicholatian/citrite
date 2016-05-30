@@ -279,7 +279,7 @@ map_bank_header:
     .byte 0
     .balign 4, 0xFF
 
-.Llscript_groundzero_d:
+.Llscript_groundzero3:
     
     maplscript 1, groundzero_lab_showball
     .byte 0
@@ -319,9 +319,9 @@ map_bank_header:
     mapnpc 2, 15, 0x15, 0x2, 3, 9, 0, 0, 0, canary_redtrainer, 0
     mapnpc 3, 98, 0x12, 0x2, 3, 10, 0, 0, 0, canary_zigzagoon, 0
     mapnpc 4, 203, 0x14, 0x2, 3, 9, 0, 0, 0, canary_skitty, 0
-    mapnpc 5, 59, 0x8, 0x6, 3, 1, 0, 0, 0, canary_itemball_a, 0x102
-    mapnpc 6, 59, 0x8, 0x6, 3, 1, 0, 0, 0, canary_itemball_b, 0x103
-    mapnpc 7, 59, 0x8, 0x6, 3, 1, 0, 0, 0, canary_itemball_c, 0x104
+    mapnpc 5, 59, 0x8, 0x6, 3, 1, 0, 0, 0, canary_itemball1, 0x102
+    mapnpc 6, 59, 0x8, 0x6, 3, 1, 0, 0, 0, canary_itemball2, 0x103
+    mapnpc 7, 59, 0x8, 0x6, 3, 1, 0, 0, 0, canary_itemball3, 0x104
     mapnpc 8, 31, 0x45, 0x9, 3, 17, 0, 0, 0x100, tb_canary_camper, 0
     mapnpc 9, 25, 0x39, 0x4, 3, 17, 0, 0, 0x100, tb_canary_pokefan, 0
 
@@ -379,7 +379,7 @@ map_bank_header:
 
 .Ltriggers_canarymeadows:
     
-    maptrigger 0x13, 0x2, 3, 0x4050, 0x0, canarybattle
+    maptrigger 0x13, 0x2, 3, 0x4050, 0x0, canary_brawl
 
 
 @ =========================== D A T A   C A C H E =========================== @
@@ -396,7 +396,7 @@ map_bank_header:
 .Lsigns_canarymeadows:
     
     mapsign 0x26, 0x9, 3, rudyhouse_sign
-    mapsign 0x1B, 0x15, 3, groundzero_warn_sign
+    mapsign 0x1B, 0x15, 3, radioactive_sign
 
 
 @ =========================== D A T A   C A C H E =========================== @
@@ -426,11 +426,11 @@ map_layout_table:
     .word .Lfooter_groundzero
     .word .Lfooter_canarymeadows
     .word .Lfooter_tryonhilltops
-    .word .Lfooter_groundzero_a
-    .word .Lfooter_groundzero_b
-    .word .Lfooter_groundzero_c
-    .word .Lfooter_groundzero_d
-    .word .Lfooter_canarymeadows_a
+    .word .Lfooter_groundzero0
+    .word .Lfooter_groundzero1
+    .word .Lfooter_groundzero2
+    .word .Lfooter_groundzero3
+    .word .Lfooter_canarymeadows0
     .word .Lfooter_amaltheajungle
 
 

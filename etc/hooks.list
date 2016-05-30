@@ -29,8 +29,8 @@
 
 # map table pointers
 
-0x84AA4 = word: map_bankheader
-0x849CC = word: map_layouttable
+0x84AA4 = word: map_bank_header
+0x849CC = word: map_layout_table
 
 # title screen hooks
 

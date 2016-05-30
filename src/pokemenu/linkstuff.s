@@ -31,8 +31,8 @@
 pokemenu_linkstuff:
     
     PUSH    {LR}
-    LDR     R1, =checkbyte_from_52stack_etc
-    BL      .Llinker
+    @LDR     R1, =checkbyte_from_52stack_etc
+    @BL      .Llinker
     
     CMP     R0, #0
     BEQ     .Lsetret_zero

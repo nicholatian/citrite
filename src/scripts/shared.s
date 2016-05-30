@@ -75,7 +75,7 @@ do_huhbubble:
     s_waitmove 0x0
     s_return
 
-.Lhuh__move:
+.Lhuh_move:
     
     .byte 0x56, 0xFE
 

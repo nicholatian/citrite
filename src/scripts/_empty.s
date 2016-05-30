@@ -19,5 +19,5 @@
 .file ".s"
 .ident "AS: (devkitARM release 45) 2.25.1"
 
-.include "pokescript.asm"
-.include "definitions.asm"
+.include "pokescript.s"
+.include "definitions.s"

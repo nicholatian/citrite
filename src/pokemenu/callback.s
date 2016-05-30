@@ -49,8 +49,8 @@ load_pokemenu:
     CMP     R0, #1
     BEQ     .Lreturn
     
-    LDR     R1, =checkbyte_from_52stack_etc
-    BL      .Llinker
+    @LDR     R1, =checkbyte_from_52stack_etc
+    @BL      .Llinker
     
     CMP     R0, #1
     BNE     .Lloop
