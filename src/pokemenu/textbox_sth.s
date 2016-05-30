@@ -38,60 +38,60 @@ pokemenu_textbox_sth:
     MOV     R6, R8
     PUSH    {R6,R7}
     LDR     R4, =0x203CEDC
-    MOVS    R0, #0x60
+    MOV     R0, #0x60
     LDR     R1, =malloc
     BL      .Llinker
     
     STR     R0, [R4]
-    MOVS    R5, #0
-    LSLS    R0, R7, #1
-    ADDS    R0, R0, R7
-    LSLS    R0, R0, #4
+    MOV     R5, #0
+    LSL     R0, R7, #1
+    ADD     R0, R0, R7
+    LSL     R0, R0, #4
     MOV     R8, R0
-    MOVS    R6, #0xFF
+    MOV     R6, #0xFF
     MOV     R9, R4
 
 .Lloop:
     LDR     R2, [R4]
-    LSLS    R3, R5, #4
-    ADDS    R2, R3, R2
+    LSL     R3, R5, #4
+    ADD     R2, R3, R2
     LDR     R0, =0x86156E4
     MOV     R12, R0
     STR     R0, [R2]
-    LSLS    R0, R5, #3
+    LSL     R0, R5, #3
     LDR     R1, =0x8615704
-    ADDS    R0, R0, R1
+    ADD     R0, R0, R1
     ADD     R0, R8
     STR     R0, [R2,#4]
     STRB    R5, [R2,#8]
     LDR     R1, [R4]
-    ADDS    R1, R3, R1
+    ADD     R1, R3, R1
     LDRB    R0, [R1,#9]
-    ORRS    R0, R6
+    ORR     R0, R6
     STRB    R0, [R1,#9]
     LDR     R1, [R4]
-    ADDS    R1, R3, R1
+    ADD     R1, R3, R1
     LDRB    R0, [R1,#0xA]
-    ORRS    R0, R6
+    ORR     R0, R6
     STRB    R0, [R1,#0xA]
     LDR     R1, [R4]
-    ADDS    R1, R3, R1
+    ADD     R1, R3, R1
     LDRB    R0, [R1,#0xB]
-    ORRS    R0, R6
+    ORR     R0, R6
     STRB    R0, [R1,#0xB]
     LDR     R0, [R4]
-    ADDS    R3, R3, R0
+    ADD     R3, R3, R0
     LDRB    R0, [R3,#0xC]
-    ORRS    R0, R6
+    ORR     R0, R6
     STRB    R0, [R3,#0xC]
-    ADDS    R0, R5, #1
+    ADD     R0, R5, #1
     CMP     R5, #5
     BLS     .Lloop
     
     MOV     R1, R9
     LDR     R0, [R1]
     MOV     R1, R12
-    SUBS    R1, #0x20 @ ' '
+    SUB     R1, #0x20 @ ' '
     STR     R1, [R0]
     CMP     R7, #3
     BNE     .Lstore_sth
