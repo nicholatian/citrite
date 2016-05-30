@@ -18,9 +18,10 @@
 
 /* RAM */
 
-io_dma3sad = 0x40000D4;
-tasks      = 0x3005E00;
-textflags  = 0x3003014;
+io_dma3sad           = 0x40000D4;
+tasks                = 0x3005E00;
+textflags            = 0x3003014;
+last_used_item_maybe = 0x203CE7C;
 
 /* ROM */
 
@@ -88,7 +89,6 @@ pokemenu_set_bg_maybe                          = 0x81B0F28|1;
 pokemenu_showmsg_maybe                         = 0x81B2428|1;
 sub_081B3054                                   = 0x81B3054|1;
 pokemenu_get_pokeattr_something                = 0x81B314C|1;
-dma_task_delete_something                      = 0x80B9FB8|1;
 song_play_and_auto_config                      = 0x82E0130|1;
 c3_tutorial_oak_boy_girl                       = 0x80AA67C|1;
 sub_080AAB44                                   = 0x80AAB44|1;
