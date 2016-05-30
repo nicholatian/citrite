@@ -1,0 +1,42 @@
+###############################################################################
+##                                                                           ##
+##   ########## ####### ######### ##########  ####### ######### ##########   ##
+##   ###    ###   ###   #  ###  # ###     ###   ###   #  ###  # ###    ###   ##
+##   ###          ###      ###    ###     ###   ###      ###    ###          ##
+##   ###          ###      ###    #########     ###      ###    #######      ##
+##   ###          ###      ###    ###   ###     ###      ###    ###          ##
+##   ###    ###   ###      ###    ###    ###    ###      ###    ###    ###   ##
+##   ########## #######    ###    ###     ### #######    ###    ##########   ##
+##                                                                           ##
+##                          Pokémon Citrite Version                          ##
+##                              OFFICIAL Source                              ##
+##                                                                           ##
+##                  Copyright © 2014-2016 Alexander Nicholi                  ##
+##                            All rights reserved                            ##
+##                                                                           ##
+###############################################################################
+
+# introduction texts
+
+0x309C4 = word: introduction1
+0x30A64 = word: introduction2
+0x30C0C = word: introduction3
+0x30DFC = word: introduction4
+0x31008 = word: introduction5
+0x31138 = word: introduction6
+0x31334 = word: introduction7
+0x314BC = word: introduction8
+
+# map table pointers
+
+0x84AA4 = word: map_bankheader
+0x849CC = word: map_layouttable
+
+# title screen hooks
+
+0x186E8  = word: tscreen_sequence|1
+0x305A0  = word: tscreen_sequence|1
+0x16CC6C = word: tscreen_sequence|1
+0x5400F0 = word: tscreen_press_start_img
+0x540100 = word: tscreen_press_start_pal
+0x540048 = word: blank_64x64_img

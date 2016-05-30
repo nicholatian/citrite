@@ -1,0 +1,2696 @@
+Command 0x0: nop
+Description: Does absolutely nothing.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x1: nop1
+Description: Does absolutely nothing.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x2: end
+Description: Ends the execution of the script.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x3: return
+Description: Pops back to the last calling command used.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x4: call
+Description: Continues script execution from another point. Can be returned to.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to continue from
+
+
+Command 0x5: goto
+Description: Continues script execution from another point.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to continue from
+
+
+Command 0x6: if1
+Description: If the last comparison returned a certain value, jumps to another script.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Condition
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to go to
+
+
+Command 0x7: if2
+Description: Calling version of the if command.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Condition
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to call
+
+
+Command 0x8: gotostd
+Description: Jumps to a built-in function.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Function # to jump to
+
+
+Command 0x9: callstd
+Description: Calls a built-in function.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Function # to call
+
+
+Command 0xA: gotostdif
+Description: Jumps to a built-in function, conditional version.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Condition
+
+Pramater 2:
+Byte size: 0
+Description: Function # to jump to
+
+
+Command 0xB: callstdif
+Description: Jumps to a built-in function, conditional version.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Condition
+
+Pramater 2:
+Byte size: 0
+Description: Function # to call
+
+
+Command 0xC: jumpram
+Description: Jumps to a default RAM location, executing the script stored there.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xD: killscript
+Description: Kills the script and resets the script RAM.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xE: setbyte
+Description: Sets a predefined address to the specified byte value.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Byte value to use
+
+
+Command 0xF: loadpointer
+Description: Loads a pointer into the script RAM so other commands can use it.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Memory bank to use
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to load into memory
+
+
+Command 0x10: setbyte2
+Description: Sets a memory bank to the specified byte value.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Memory bank to use
+
+Pramater 2:
+Byte size: 0
+Description: Byte value to use
+
+
+Command 0x11: writebytetooffset
+Description: Sets the byte at the specified offset to a certain value.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Byte value to write
+
+Pramater 2:
+Byte size: 4
+Description: Location to write it to
+
+
+Command 0x12: loadbytefrompointer
+Description: Loads the byte found at a pointer into the script RAM so other commands can use it.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Memory bank to use
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to byte to load into memory
+
+
+Command 0x13: setfarbyte
+Description: Sets the byte into a specified pointer.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Memory bank to use
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to write byte to
+
+
+Command 0x14: copyscriptbanks
+Description: Copies one script bank to another.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Bank #1 - Destination
+
+Pramater 2:
+Byte size: 0
+Description: Bank #2 - Source
+
+
+Command 0x15: copybyte
+Description: Copies a byte value from one place to another.
+Byte size: 9
+Parameter count: 2
+Pramater 1:
+Byte size: 4
+Description: Destination byte location
+
+Pramater 2:
+Byte size: 4
+Description: Source byte location
+
+
+Command 0x16: setvar
+Description: Sets variable A to any value.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable A
+
+Pramater 2:
+Byte size: 1
+Description: Value to set A to
+
+
+Command 0x17: addvar
+Description: Adds any value to variable A.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable A
+
+Pramater 2:
+Byte size: 1
+Description: Value to add to A
+
+
+Command 0x18: subvar
+Description: Subtracts any value from variable A.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable A
+
+Pramater 2:
+Byte size: 1
+Description: Value to subtract from A
+
+
+Command 0x19: copyvar
+Description: Copies variable B to A.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable A - Destination
+
+Pramater 2:
+Byte size: 1
+Description: Variable B - Source
+
+
+Command 0x1A: copyvarifnotzero
+Description: Sets variable B to A, but only if B is higher than zero.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable A - Destination
+
+Pramater 2:
+Byte size: 1
+Description: Variable B - Source
+
+
+Command 0x1B: comparebanks
+Description: Compares two banks.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Bank #1
+
+Pramater 2:
+Byte size: 1
+Description: Bank #2
+
+
+Command 0x1C: comparebanktobyte
+Description: Compares a variable stored in a buffer to a byte value.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Bank #
+
+Pramater 2:
+Byte size: 0
+Description: Byte value to compare variable to
+
+
+Command 0x1D: comparebanktofarbyte
+Description: Compares a bank with a byte at some location.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Bank #
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to a byte value to compare variable to
+
+
+Command 0x1E: comparefarbytetobank
+Description: Compares a byte at some location to a buffered variable. The reverse of comparevartofarbyte.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 4
+Description: Pointer to a byte value to compare B to
+
+Pramater 2:
+Byte size: 0
+Description: Bank #
+
+
+Command 0x1F: comparefarbytetobyte
+Description: Compares a byte at some location to a byte value.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 4
+Description: Pointer to a byte value to compare with
+
+Pramater 2:
+Byte size: 0
+Description: Byte value to compare with
+
+
+Command 0x20: comparefarbytes
+Description: Compares a byte at some location to a byte at another location.
+Byte size: 9
+Parameter count: 2
+Pramater 1:
+Byte size: 4
+Description: Pointer to a byte value to compare with
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to a byte value to compare with
+
+
+Command 0x21: compare
+Description: Compares variable A to a value.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable A
+
+Pramater 2:
+Byte size: 1
+Description: Value to compare A to
+
+
+Command 0x22: comparevars
+Description: Compares two variables.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable A
+
+Pramater 2:
+Byte size: 1
+Description: Variable B
+
+
+Command 0x23: callasm
+Description: Calls a custom ASM routine.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Address of custom ASM routine
+
+
+Command 0x24: cmd24
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: ???
+
+
+Command 0x25: special
+Description: Calls a special event.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Event # to call
+
+
+Command 0x26: special2
+Description: Like special, but can store a returned value.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable to store returned value in
+
+Pramater 2:
+Byte size: 1
+Description: Special event to call
+
+
+Command 0x27: waitstate
+Description: Sets the script to a wait state, useful for some specials and commands.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x28: pause
+Description: Pauses script execution for a short amount of time.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Delay
+
+
+Command 0x29: setflag
+Description: Sets a flag for later use.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Flag #
+
+
+Command 0x2A: clearflag
+Description: Clears the value of a flag.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Flag #
+
+
+Command 0x2B: checkflag
+Description: Checks the value of a flag.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Flag #
+
+
+Command 0x2C: cmd2c
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: ???
+
+Pramater 2:
+Byte size: 1
+Description: ???
+
+
+Command 0x2D: checkdailyflags
+Description: Checks the daily flags to see if any of them have been set already, but only if they were set previously. Then it clears those flags. R/S/E only.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x2E: resetvars
+Description: Resets the value of variables 0x8000, 0x8001 and 0x8002.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x2F: sound
+Description: Plays a sound.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Sound #
+
+
+Command 0x30: checksound
+Description: Checks if a sound, a fanfare or a song is currently being played.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x31: fanfare
+Description: Plays a Sappy song as a fanfare.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Sappy song # to play
+
+
+Command 0x32: waitfanfare
+Description: Waits for fanfare to finish.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x33: playsong
+Description: Switches to another Sappy song.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Sappy song # to play
+
+Pramater 2:
+Byte size: 0
+Description: ???
+
+
+Command 0x34: playsong2
+Description: Switches to another Sappy song.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Sappy song # to play
+
+
+Command 0x35: fadedefault
+Description: Gently fades the current music back to the map's default song.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x36: fadesong
+Description: Gently fades into another Sappy song.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Sappy song # to fade to
+
+
+Command 0x37: fadeout
+Description: Fades out the currently playing Sappy song.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Fading speed
+
+
+Command 0x38: fadein
+Description: Fades the currently playing Sappy song back in.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Fading speed
+
+
+Command 0x39: warp
+Description: Warps the player to another map.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x3A: warpmuted
+Description: Warps the player to another map. No sound effect.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x3B: warpwalk
+Description: Warps the player to another map. Walking effect.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x3C: warphole
+Description: Warps the player to another map. Hole effect.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+
+Command 0x3D: warpteleport
+Description: Warps the player to another map. Teleport effect.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x3E: warp3
+Description: Warps the player to another map.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x3F: setwarpplace
+Description: Sets the place a warp that lead to warp 127 of map 127.127 warps the player.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x40: warp4
+Description: Warps the player to another map.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x41: warp5
+Description: Warps the player to another map.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0x42: getplayerpos
+Description: Gets current position of the player on the map and stores it on specified variables.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Variable to store X coordinate
+
+Pramater 2:
+Byte size: 1
+Description: Variable to store Y coordinate
+
+
+Command 0x43: countpokemon
+Description: Counts the number of Pokemon in your party and stores the result in LASTRESULT.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x44: additem
+Description: Adds the quantity of the specified item.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Item # to add
+
+Pramater 2:
+Byte size: 1
+Description: Quantity
+
+
+Command 0x45: removeitem
+Description: Removes the quantity of the specified item.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Item # to remove
+
+Pramater 2:
+Byte size: 1
+Description: Quantity
+
+
+Command 0x46: checkitemroom
+Description: Checks if the player has enough room in the bag for the specified item.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Item # to check for
+
+Pramater 2:
+Byte size: 1
+Description: Quantity
+
+
+Command 0x47: checkitem
+Description: Checks if the player is carrying the specified item.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Item # to check for
+
+Pramater 2:
+Byte size: 1
+Description: Quantity
+
+
+Command 0x48: checkitemtype
+Description: Checks the item type for the specified item and store the result in LASTRESULT.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Item # to check for
+
+
+Command 0x49: addpcitem
+Description: Adds the quantity of the specified item to player's PC.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Item # to add
+
+Pramater 2:
+Byte size: 1
+Description: Quantity
+
+
+Command 0x4A: checkpcitem
+Description: Checks if the player has the specified item on his/her PC.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Item # to add
+
+Pramater 2:
+Byte size: 1
+Description: Quantity
+
+
+Command 0x4B: adddecoration
+Description: Adds a decoration to player's PC.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Decoration #
+
+
+Command 0x4C: removedecoration
+Description: Removes a decoration from player's PC.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Decoration #
+
+
+Command 0x4D: testdecoration
+Description: Tests a specific decoration to see if there's enough room to store it.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Decoration #
+
+
+Command 0x4E: checkdecoration
+Description: Checks if a specific decoration is present in player's PC.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Decoration #
+
+
+Command 0x4F: applymovement
+Description: Applies the movement data found at the specified pointer to a sprite.
+Byte size: 7
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: People # to use
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to the movement data
+
+
+Command 0x50: applymovementpos
+Description: Applies the movement data found at the specified pointer to a sprite. Then set the specified X/Y coordinates.
+Byte size: 9
+Parameter count: 4
+Pramater 1:
+Byte size: 1
+Description: People # to use
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to the movement data
+
+Pramater 3:
+Byte size: 0
+Description: X coordinate
+
+Pramater 4:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0x51: waitmovement
+Description: Waits for applymovement to finish.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: People # to wait for
+
+
+Command 0x52: waitmovementpos
+Description: Waits for applymovement to finish. Then set the specified X/Y coordinates.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People # to wait for
+
+Pramater 2:
+Byte size: 0
+Description: X coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0x53: hidesprite
+Description: Hides a sprite.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: People # to hide
+
+
+Command 0x54: hidespritepos
+Description: Hides a sprite, then set the specified X/Y coordinates.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People # to hide
+
+Pramater 2:
+Byte size: 0
+Description: X coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0x55: showsprite
+Description: Shows a previously vanished sprite.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: People # to show
+
+
+Command 0x56: showspritepos
+Description: Shows a previously vanished sprite. Then set the specified X/Y coordinates.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People # to show
+
+Pramater 2:
+Byte size: 0
+Description: X coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0x57: movesprite
+Description: Moves a sprite to the specified location.
+Byte size: 7
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People # to move
+
+Pramater 2:
+Byte size: 1
+Description: X coordinate to move to
+
+Pramater 3:
+Byte size: 1
+Description: Y coordinate to move to
+
+
+Command 0x58: spritevisible
+Description: Makes the sprite visible at selected bank and map.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People #
+
+Pramater 2:
+Byte size: 0
+Description: Bank #
+
+Pramater 3:
+Byte size: 0
+Description: Map #
+
+
+Command 0x59: spriteinvisible
+Description: Makes the sprite invisible at selected bank and map.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People #
+
+Pramater 2:
+Byte size: 0
+Description: Bank #
+
+Pramater 3:
+Byte size: 0
+Description: Map #
+
+
+Command 0x5A: faceplayer
+Description: Turns the caller towards the player.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x5B: spriteface
+Description: Changes a facing of a sprite.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: People #
+
+Pramater 2:
+Byte size: 0
+Description: Facing
+
+
+Command 0x5C: trainerbattle
+Description: Starts a trainer battle. Depending on the kind of battle, last parameters may differ.
+Byte size: 14
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Kind of battle
+
+Pramater 2:
+Byte size: 1
+Description: Battle # to start
+
+Pramater 3:
+Byte size: 1
+Description: Reserved
+
+Pramater 4:
+Byte size: 4
+Description: Pointer to the challenge text
+
+Pramater 5:
+Byte size: 4
+Description: Pointer to the defeat text
+
+
+Command 0x5D: repeattrainerbattle
+Description: Repeats the last trainer battle started.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x5E: endtrainerbattle
+Description: Returns from the trainer battle screen without starting message.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x5F: endtrainerbattle2
+Description: Returns from the trainer battle screen without ending message.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x60: checktrainerflag
+Description: Checks it the specified trainer flag is already activated and store the result in LASTRESULT.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Trainer # to check
+
+
+Command 0x61: cleartrainerflag
+Description: Deactivates the specified trainer flag.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Trainer # to disable
+
+
+Command 0x62: settrainerflag
+Description: Activates the specified trainer flag.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Trainer # to enable
+
+
+Command 0x63: movesprite2
+Description: Moves a sprite to the specified location. Permanent change.
+Byte size: 7
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People # to move
+
+Pramater 2:
+Byte size: 1
+Description: X coordinate to move to
+
+Pramater 3:
+Byte size: 1
+Description: Y coordinate to move to
+
+
+Command 0x64: moveoffscreen
+Description: Changes the location of the specified sprite to a value which is exactly one tile above the top left corner of the screen.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: People # to move
+
+
+Command 0x65: spritebehave
+Description: Changes the behaviour of a sprite.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: People #
+
+Pramater 2:
+Byte size: 0
+Description: Behaviour #
+
+
+Command 0x66: waitmsg
+Description: Waits for preparemsg to finish.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x67: preparemsg
+Description: Prepares a pointer to dialogue text for being displayed.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to text
+
+
+Command 0x68: closeonkeypress
+Description: Holds a msgbox open and closes it on keypress.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x69: lockall
+Description: Locks down movement for all the people on the screen.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x6A: lock
+Description: Locks down movement for the caller.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x6B: releaseall
+Description: Resumes normal movement forall the people on the screen. Closes any previously opened msgboxes as well.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x6C: release
+Description: Resumes normal movement for the caller. Closes any previously opened msgboxes as well.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x6D: waitkeypress
+Description: Waits until a key is pressed.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x6E: yesnobox
+Description: Displays a Yes/No box at specified coordinates.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: X coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0x6F: multichoice
+Description: Puts up a list of choices for the player to make.
+Byte size: 5
+Parameter count: 4
+Pramater 1:
+Byte size: 0
+Description: Left coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Top coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Choice list ID # to use
+
+Pramater 4:
+Byte size: 0
+Description: Determines if the B button can be used to cancel
+
+
+Command 0x70: multichoice2
+Description: Puts up a list of choices for the player to make. A default choice can be set.
+Byte size: 6
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Left coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Top coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Choice list ID # to use
+
+Pramater 4:
+Byte size: 0
+Description: Default selected choice
+
+Pramater 5:
+Byte size: 0
+Description: Determines if the B button can be used to cancel
+
+
+Command 0x71: multichoice3
+Description: Puts up a list of choices for the player to make. The number of choices per row can be set.
+Byte size: 6
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Left coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Top coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Choice list ID # to use
+
+Pramater 4:
+Byte size: 0
+Description: Number of choices per row
+
+Pramater 5:
+Byte size: 0
+Description: Determines if the B button can be used to cancel
+
+
+Command 0x72: showbox
+Description: Displays a box with the given dimensions.
+Byte size: 5
+Parameter count: 4
+Pramater 1:
+Byte size: 0
+Description: Left position
+
+Pramater 2:
+Byte size: 0
+Description: Top position
+
+Pramater 3:
+Byte size: 0
+Description: Width
+
+Pramater 4:
+Byte size: 0
+Description: Height
+
+
+Command 0x73: hidebox
+Description: Hides a displayed box. Ruby/Sapphire only.
+Byte size: 5
+Parameter count: 4
+Pramater 1:
+Byte size: 0
+Description: Left position
+
+Pramater 2:
+Byte size: 0
+Description: Top position
+
+Pramater 3:
+Byte size: 0
+Description: Width
+
+Pramater 4:
+Byte size: 0
+Description: Height
+
+
+Command 0x74: clearbox
+Description: Clears a part of a custom box.
+Byte size: 5
+Parameter count: 4
+Pramater 1:
+Byte size: 0
+Description: Left position
+
+Pramater 2:
+Byte size: 0
+Description: Top position
+
+Pramater 3:
+Byte size: 0
+Description: Width
+
+Pramater 4:
+Byte size: 0
+Description: Height
+
+
+Command 0x75: showpokepic
+Description: Displays a Pokemon in a picture box.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: Pokemon species to display
+
+Pramater 2:
+Byte size: 0
+Description: X coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0x76: hidepokepic
+Description: Hides a Pokemon picture box previously showed.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x77: showcontestwinner
+Description: Shows the picture of the winner of set contest.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Contest #
+
+
+Command 0x78: braille
+Description: Displays a braille box.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to braille data
+
+
+Command 0x79: givepokemon
+Description: Gives the player a Pokemon.
+Byte size: 15
+Parameter count: 6
+Pramater 1:
+Byte size: 1
+Description: Pokemon species to give
+
+Pramater 2:
+Byte size: 0
+Description: Level of the Pokemon
+
+Pramater 3:
+Byte size: 1
+Description: Item # to be held
+
+Pramater 4:
+Byte size: 2
+Description: Filler
+
+Pramater 5:
+Byte size: 2
+Description: Filler
+
+Pramater 6:
+Byte size: 0
+Description: Filler
+
+
+Command 0x7A: giveegg
+Description: Gives the player an egg of the specified Pokemon.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Pokemon species to give
+
+
+Command 0x7B: setpkmnpp
+Description: Sets a new amount of PP for the specified Pokemon in player's party.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 0
+Description: Pokemon #
+
+Pramater 2:
+Byte size: 0
+Description: Attack slot
+
+Pramater 3:
+Byte size: 1
+Description: PP amount
+
+
+Command 0x7C: checkattack
+Description: Checks if at least one Pokemon in the party has a particular attack.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Attack # to check
+
+
+Command 0x7D: bufferpokemon
+Description: Stores a Pokemon name within a specified buffer.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Pokemon species to store
+
+
+Command 0x7E: bufferfirstpokemon
+Description: Stores the first Pokemon name in player's party within a specified buffer.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+
+Command 0x7F: bufferpartypokemon
+Description: Stores the selected Pokemon name in player's party within a specified buffer.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Pokemon #
+
+
+Command 0x80: bufferitem
+Description: Stores an item name within a specified buffer.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Item # to store
+
+
+Command 0x81: bufferdecoration
+Description: Stores a decoration name within a specified buffer.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Decoration # to store
+
+
+Command 0x82: bufferattack
+Description: Stores an attack name within a specified buffer.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Attack # to store
+
+
+Command 0x83: buffernumber
+Description: Variable version on buffernumber.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Variable to store
+
+
+Command 0x84: bufferstd
+Description: Stores a standard string within a specified buffer.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Standard string #
+
+
+Command 0x85: bufferstring
+Description: Stores a string within a specified buffer.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to the string to store
+
+
+Command 0x86: pokemart
+Description: Opens the Pokemart shop system with the item/price list found at the selected pointer.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to the item list
+
+
+Command 0x87: pokemart2
+Description: Opens the PokeMart shop system with the item/price list found at the selected pointer.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to the item list
+
+
+Command 0x88: pokemart3
+Description: Opens the PokeMart shop system with the item/price list found at the selected pointer.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to the item list
+
+
+Command 0x89: pokecasino
+Description: Opens the Casino system.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Variable #
+
+
+Command 0x8A: cmd8a
+Description: Apparently does absolutely nothing.
+Byte size: 4
+Parameter count: 3
+Pramater 1:
+Byte size: 0
+Description: ???
+
+Pramater 2:
+Byte size: 0
+Description: ???
+
+Pramater 3:
+Byte size: 0
+Description: ???
+
+
+Command 0x8B: choosecontestpkmn
+Description: Opens up a menu for choosing a contest Pokemon.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x8C: startcontest
+Description: Start a Pokemon Contest.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x8D: showcontestresults
+Description: Shows Pokemon contest results.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x8E: contestlinktransfer
+Description: Establishes a connection using the wireless adapter. Emerald only.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0x8F: random
+Description: Generates a random number storing it into LASTRESULT.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Total possibilities
+
+
+Command 0x90: givemoney
+Description: Gives the player some money.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 2
+Description: Money quantity to give
+
+Pramater 2:
+Byte size: 0
+Description: Command execution check
+
+
+Command 0x91: paymoney
+Description: Takes some money from the player.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 2
+Description: Money quantity to pay
+
+Pramater 2:
+Byte size: 0
+Description: Command execution check
+
+
+Command 0x92: checkmoney
+Description: Checks if the player has a specified amount of money.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 2
+Description: Money quantity to check
+
+Pramater 2:
+Byte size: 0
+Description: Command execution check
+
+
+Command 0x93: showmoney
+Description: Shows the money counter on set coordinates.
+Byte size: 4
+Parameter count: 3
+Pramater 1:
+Byte size: 0
+Description: X coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Y coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Command execution check
+
+
+Command 0x94: hidemoney
+Description: Hides the money counter.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: X coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0x95: updatemoney
+Description: Updates the amount of money displayed in the money counter.
+Byte size: 4
+Parameter count: 3
+Pramater 1:
+Byte size: 0
+Description: X coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Y coordinate
+
+Pramater 3:
+Byte size: 0
+Description: Command execution check
+
+
+Command 0x96: cmd96
+Description: Apparently does absolutely nothing.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: ???
+
+
+Command 0x97: fadescreen
+Description: Fades the screen in or out.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Fade effect
+
+
+Command 0x98: fadescreendelay
+Description: Fades the screen in or out, after some delay.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Fade effect
+
+Pramater 2:
+Byte size: 0
+Description: Delay
+
+
+Command 0x99: darken
+Description: Calls flash animation that darkens the area. Must be called from a level script.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Flash size
+
+
+Command 0x9A: lighten
+Description: Calls flash animation that lightens the area.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Flash size
+
+
+Command 0x9B: preparemsg2
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to text
+
+
+Command 0x9C: doanimation
+Description: Executes the specified move animation.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Animation #
+
+
+Command 0x9D: setanimation
+Description: Sets the move animation.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Animation #
+
+Pramater 2:
+Byte size: 1
+Description: Variable to use
+
+
+Command 0x9E: checkanimation
+Description: Checks whether an animation is currently being played or not. If so, it'll pause until the animation is done.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Animation #
+
+
+Command 0x9F: sethealingplace
+Description: Sets the place where the player goes once he/she is out of usable Pokemon.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Flightspot #
+
+
+Command 0xA0: checkgender
+Description: Checks if the player is a boy or a girl and stores it in LASTRESULT.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xA1: cry
+Description: Plays back the cry of a Pokemon.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Pokemon species #
+
+Pramater 2:
+Byte size: 1
+Description: Effect #
+
+
+Command 0xA2: setmaptile
+Description: Sets a tile on the map. You must somehow refresh that part.
+Byte size: 9
+Parameter count: 4
+Pramater 1:
+Byte size: 1
+Description: X coordinate
+
+Pramater 2:
+Byte size: 1
+Description: Y coordinate
+
+Pramater 3:
+Byte size: 1
+Description: Tile #
+
+Pramater 4:
+Byte size: 1
+Description: Tile attribute
+
+
+Command 0xA3: resetweather
+Description: Prepares to fade the weather into the default type.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xA4: setweather
+Description: Prepares to fade the weather into the type specified.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: New weather
+
+
+Command 0xA5: doweather
+Description: Triggers the weather change set with setweather/resetweather.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xA6: cmda6
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: ???
+
+
+Command 0xA7: setmapfooter
+Description: Changes the current map footer loading the new one. The map must be refreshed afterwards in order to work fine.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Footer #
+
+
+Command 0xA8: spritelevelup
+Description: Makes the specified sprite go up one level at selected bank and map.
+Byte size: 6
+Parameter count: 4
+Pramater 1:
+Byte size: 1
+Description: People #
+
+Pramater 2:
+Byte size: 0
+Description: Bank #
+
+Pramater 3:
+Byte size: 0
+Description: Map #
+
+Pramater 4:
+Byte size: 0
+Description: ???
+
+
+Command 0xA9: restorespritelevel
+Description: Restores the original level, at selected bank and map, for the specified sprite.
+Byte size: 5
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: People #
+
+Pramater 2:
+Byte size: 0
+Description: Bank #
+
+Pramater 3:
+Byte size: 0
+Description: Map #
+
+
+Command 0xAA: createsprite
+Description: Creates a virtual sprite in the current map.
+Byte size: 9
+Parameter count: 6
+Pramater 1:
+Byte size: 0
+Description: Sprite # to use
+
+Pramater 2:
+Byte size: 0
+Description: Virtual people #
+
+Pramater 3:
+Byte size: 1
+Description: X coordinate
+
+Pramater 4:
+Byte size: 1
+Description: Y coordinate
+
+Pramater 5:
+Byte size: 0
+Description: Behaviour
+
+Pramater 6:
+Byte size: 0
+Description: Facing
+
+
+Command 0xAB: spriteface2
+Description: Changes a facing of a virtual sprite.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Virtual people #
+
+Pramater 2:
+Byte size: 0
+Description: Facing
+
+
+Command 0xAC: setdooropened
+Description: Prepares a door to be opened.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: X coordinate
+
+Pramater 2:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xAD: setdoorclosed
+Description: Prepares a door to be closed.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: X coordinate
+
+Pramater 2:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xAE: doorchange
+Description: Changes the state of the selected door.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xAF: setdooropened2
+Description: Prepares a door to be opened. No animation.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: X coordinate
+
+Pramater 2:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xB0: setdoorclosed2
+Description: Prepares a door to be closed. No animation.
+Byte size: 5
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: X coordinate
+
+Pramater 2:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xB1: cmdb1
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 7
+Parameter count: 4
+Pramater 1:
+Byte size: 0
+Description: ???
+
+Pramater 2:
+Byte size: 1
+Description: ???
+
+Pramater 3:
+Byte size: 0
+Description: ???
+
+Pramater 4:
+Byte size: 1
+Description: ???
+
+
+Command 0xB2: cmdb2
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xB3: checkcoins
+Description: Checks the actual amount of coins and stores it on a specified variable.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Variable to use
+
+
+Command 0xB4: givecoins
+Description: Gives the player a specified quantity of coins.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Number of coins to give
+
+
+Command 0xB5: removecoins
+Description: Removes a specified quantity of coins.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Number of coins to remove
+
+
+Command 0xB6: setwildbattle
+Description: Prepares to start a battle with a specified Pokemon, level and item.
+Byte size: 6
+Parameter count: 3
+Pramater 1:
+Byte size: 1
+Description: Pokemon species
+
+Pramater 2:
+Byte size: 0
+Description: Level of the Pokemon
+
+Pramater 3:
+Byte size: 1
+Description: Item # to be held
+
+
+Command 0xB7: dowildbattle
+Description: Triggers the battle specified by setbattle.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xB8: setvirtualaddress
+Description: Jumps to the specified value - value at 0x020375C4 in RAM, continuing execution from there.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 2
+Description: Value
+
+
+Command 0xB9: virtualgoto
+Description: Jumps to a custom function.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to custom function
+
+
+Command 0xBA: virtualcall
+Description: Calls a custom function.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to custom function
+
+
+Command 0xBB: virtualgotoif
+Description: Jumps to a custom function, conditional version.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Condition
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to custom function
+
+
+Command 0xBC: virtualcallif
+Description: Calls a custom function, conditional version.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Condition
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to custom function
+
+
+Command 0xBD: virtualmsgbox
+Description: Prepares a pointer to dialogue text for use.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to text
+
+
+Command 0xBE: virtualloadpointer
+Description: Prepares a pointer to dialogue text for use.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to text
+
+
+Command 0xBF: virtualbuffer
+Description: Stores a custom string within a buffer.
+Byte size: 6
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 4
+Description: Pointer to the string to store
+
+
+Command 0xC0: showcoins
+Description: Shows the coin counter on set coordinates.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: X coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0xC1: hidecoins
+Description: Hides the coin counter.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: X coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0xC2: updatecoins
+Description: Updates the amount of coins displayed in the coin counter.
+Byte size: 3
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: X coordinate
+
+Pramater 2:
+Byte size: 0
+Description: Y coordinate
+
+
+Command 0xC3: cmdc3
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: ???
+
+
+Command 0xC4: warp6
+Description: Warps the player to another map.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xC5: waitcry
+Description: Waits for cry to finish.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xC6: bufferboxname
+Description: Stores the name of a PC box within a specified buffer.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: PC box # to store
+
+
+Command 0xC7: textcolor
+Description: Changes the text color used. FR/LG only.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: Color #
+
+
+Command 0xC8: cmdc8
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xC9: cmdc9
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xCA: signmsg
+Description: Changes the graphics used by msgboxes in order to make them look like signs. FR/LG only.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xCB: normalmsg
+Description: Clears the effect of the msgboxsign command. FR/LG only.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xCC: comparehiddenvar
+Description: Compares the value of a chosen hidden variable. FR/LG only.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Variable #
+
+Pramater 2:
+Byte size: 1
+Description: Value to compare variable to
+
+
+Command 0xCD: setobedience
+Description: Sets the specified Pokemon in player's party as obedient.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Pokemon #
+
+
+Command 0xCE: checkobedience
+Description: Checks if the specified Pokemon in player's party is obedient or not. The result is stored in LASTRESULT.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Pokemon #
+
+
+Command 0xCF: executeram
+Description: Calculates the current location of the RAM script area and passes the execution to that offset.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xD0: setworldmapflag
+Description: Sets the flag used to allow the player to fly to a specific place. FR/LG only.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: Flag #
+
+
+Command 0xD1: warpteleport2
+Description: Warps the player to another map. Teleport effect.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xD2: setcatchlocation
+Description: Changes the catch location for a specified Pokemon in player's party.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 1
+Description: Pokemon #
+
+Pramater 2:
+Byte size: 0
+Description: Catch location #
+
+
+Command 0xD3: braille2
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to braille data
+
+
+Command 0xD4: bufferitems
+Description: Stores a plural item name within a specified buffer. FR/LG only.
+Byte size: 6
+Parameter count: 3
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Item # to store
+
+Pramater 3:
+Byte size: 1
+Description: Quantity
+
+
+Command 0xD5: cmdd5
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 3
+Parameter count: 1
+Pramater 1:
+Byte size: 1
+Description: ???
+
+
+Command 0xD6: cmdd6
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xD7: warp7
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xD8: cmdd8
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xD9: cmdd9
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xDA: hidebox2
+Description: Hides a displayed box. Emerald only.
+Byte size: 1
+Parameter count: 0
+
+
+Command 0xDB: preparemsg3
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to text
+
+
+Command 0xDC: fadescreen3
+Description: Fades the screen in or out. Emerald only.
+Byte size: 2
+Parameter count: 1
+Pramater 1:
+Byte size: 0
+Description: ???
+
+
+Command 0xDD: buffertrainerclass
+Description: Stores the name of the selected trainer class within a specified buffer. Emerald only.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Trainer class #
+
+
+Command 0xDE: buffertrainername
+Description: Stores the name of the selected trainer within a specified buffer. Emerald only.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Trainer #
+
+
+Command 0xDF: pokenavcall
+Description: Displays a Pokenav call. Emerald only.
+Byte size: 5
+Parameter count: 1
+Pramater 1:
+Byte size: 4
+Description: Pointer to text
+
+
+Command 0xE0: warp8
+Description: This command is currently under investigation. No detailed information is available at this time.
+Byte size: 8
+Parameter count: 5
+Pramater 1:
+Byte size: 0
+Description: Bank # to warp to
+
+Pramater 2:
+Byte size: 0
+Description: Map # to warp to
+
+Pramater 3:
+Byte size: 0
+Description: Exit # to warp to
+
+Pramater 4:
+Byte size: 1
+Description: X coordinate
+
+Pramater 5:
+Byte size: 1
+Description: Y coordinate
+
+
+Command 0xE1: buffercontestype
+Description: Stores the name of the selected contest type within a specified buffer. Emerald only.
+Byte size: 4
+Parameter count: 2
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Contest type
+
+
+Command 0xE2: bufferitems2
+Description: Stores a plural item name within a specified buffer. Emerald only.
+Byte size: 6
+Parameter count: 3
+Pramater 1:
+Byte size: 0
+Description: Buffer #
+
+Pramater 2:
+Byte size: 1
+Description: Item # to store
+
+Pramater 3:
+Byte size: 1
+Description: Quantity
+
+

@@ -1,0 +1,34 @@
+Data:
+    Maps:
+        Map header 0x0/0x0: ROM:09C00018->ROM:09200000~ROM:0920001B
+        Map footer 0x0/0x0: ROM:09200000->ROM:09200020~ROM:09200037
+        Map border 0x0/0x0: ROM:09200018->ROM:0920003C~ROM:09200043
+        Map data   0x0/0x0: ROM:0920001C->ROM:09200048~ROM:092000E9
+        Map header 0x0/0x1: ROM:09C0001C->ROM:092000EC~ROM:09200107
+        Map footer 0x0/0x1: ROM:092000EC->ROM:0920010C~ROM:09200123
+        Map border 0x0/0x1: ROM:09200114->ROM:09200128~ROM:0920012F
+        Map data   0x0/0x1: ROM:09200118->ROM:09200128~ROM:09200128
+        Map header 0x1/0x0: ROM:09200340->ROM:09200384~ROM:0920039F
+        Map footer 0x1/0x0: ROM:09200384->ROM:092003A4~ROM:092003BB
+        
+    Scripts:
+        
+    ASM:
+        
+    # Tileset and tilemap IDs should match up
+    Tilesets:
+        Map tilesets:
+            Outdoors:    ROM:083DF708->ROM:09400000~ROM:094023BB
+            Ground Zero: ROM:083DF720->ROM:094023C0~ROM:094032E1
+    Tilemaps:
+        Map blocksets:
+            Outdoors:    ROM:083DF710->ROM:094032E4~ROM:094052E3
+            Ground Zero: ROM:083DF728->ROM:094052E8~ROM:094072E7
+    Misc:
+        Blockset behaviours:
+            Outdoors:    ROM:083DF714->ROM:09C00038~ROM:09C00437
+            Ground Zero: ROM:083DF72C->ROM:09C0043C~ROM:09C0063B
+        Map bank table: ROM:08084AA4->ROM:09C00000~ROM:09C00013
+        Map layout table: ROM:080849CC->ROM:09C00028~ROM:09C000033
+        Map bank 0x0: ROM:09C00000->ROM:09C00018~ROM:09C00023
+        Map bank 0x1: ROM:09XXXXXX->ROM:09200340~ROM:0920037F
