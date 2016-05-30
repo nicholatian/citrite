@@ -20,8 +20,9 @@
 .ident "AS: (devkitARM release 45) 2.25.1"
 
 @ fix this later
-.equ bootscreen_temphook1, 0x02C92113
-.equ bootscreen_temphook2, 0x02092113
+.equ bootscreen_temphook1, 0x2113
+.equ bootscreen_temphook2, 0x02C9
+.equ bootscreen_temphook3, 0x0209
 
 .equ tscreen_img_vramoffs, 0x4000
 .equ tscreen_map_vramoffs, 0xE000

@@ -47,6 +47,8 @@
 0x16CCB0 = word: boot_screen_map
 0x16CCB4 = word: boot_screen_pal
 
-0x16CD60 = word: bootscreen_temphook1
+0x16CD60 = hword: bootscreen_temphook1
+0x16CD62 = hword: bootscreen_temphook2
 
-0x16CD8E = word: bootscreen_temphook2
+0x16CD8E = hword: bootscreen_temphook1
+0x16CD90 = hword: bootscreen_temphook3
