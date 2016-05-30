@@ -144,7 +144,7 @@ pokemenu_switch:
     LDR     R4, =boot_fade_sequence
     BL      .Llinker
     
-    LDR     R2, =dword_02037FD4
+    LDR     R2, =0x2037FD4
     LDRB    R0, [R2,#8]
     MOV     R1, #0x80
     ORR     R0, R1
@@ -293,7 +293,7 @@ pokemenu_switch:
 
 .Lcase8:
     
-    LDR     R4, =decompress_pokemenu_stuff
+    LDR     R4, =pokemenu_decompress_stuff
     BL      .Llinker
     
     CMP     R0, #0
@@ -348,7 +348,7 @@ pokemenu_switch:
     LDRB    R0, [R0,#8]
     LSL     R0, R0, #0x1A
     LSR     R0, R0, #0x1E
-    LDR     R4, =sub_081B0740 @ probably a function to do with textboxes
+    LDR     R4, =pokemenu_textbox_sth
     BL      .Llinker
     
     B       .Llastitem_0x218
