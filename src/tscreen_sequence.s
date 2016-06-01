@@ -20,12 +20,15 @@
 .ident "AS: (devkitARM release 45) 2.25.1"
 
 @ fix this later
+.equ nop_inst, 0x46C0
+.globl nop_inst
+
 .equ bootscreen_temphook1, 0x2113
 .equ bootscreen_temphook2, 0x02C9
 .equ bootscreen_temphook3, 0x0209
 
-.equ tscreen_img_vramoffs, 0x4000
-.equ tscreen_map_vramoffs, 0xE000
+.equ tscreen_img_vramaddr, 0x6004000
+.equ tscreen_map_vramaddr, 0x600E000
 
 .equ tscreen_ioreg_a, 0x1C84
 .equ tscreen_ioreg_b, 0x0103
@@ -48,8 +51,9 @@
 
 tscreen_sequence:
     
-    PUSH    {R4-R6,LR}
-    ADD     SP, #-0x14
+    PUSH    {LR}
+    PUSH    {R4-R6}
+    SUB     SP, #0x14
     LDR     R0, =super
     MOV     R1, #0x87  @ ~LDR =0x438
     LSL     R1, R1, #3 @
@@ -167,7 +171,6 @@ tscreen_sequence:
     STR     R0, [R1]
     MOV     R0, #6      @ ~LDR 0x06000000
     LSL     R0, R0, #24 @
-    MOV     R6, R0 @ save this for VRAM offsets later, saves time
     STR     R0, [R1, #4]
     LDR     R0, =0x8100C000
     STR     R0, [R1, #8]
@@ -257,10 +260,10 @@ tscreen_sequence:
     BL      .Llinker
     
     @ OAM for EMERALD VERSION
-    LDR     R1, =0x0300301C
+    LDR     R1, =0x300301C
     MOV     R0, #9
     STRB    R0, [R1]
-    LDR     R0, =0x08540000
+    LDR     R0, =0x8540000
     MOV     R6, R0 @ Save this for later similar values
     ADD     R0, R0, #0x48 @ ~LDR =0x08540048
     LDR     R4, =gpu_tile_obj_decompress_alloc_tag_and_upload_2
@@ -357,7 +360,7 @@ tscreen_sequence:
     NEG     R0, R0
     MOV     R1, #0x10   @ ~LDR =0xFFFF
     LSL     R1, R1, #12 @
-    SUB     R5, #1      @
+    SUB     R1, #1      @
     STR     R1, [SP]
     MOV     R1, #1
     MOV     R2, #0x10
@@ -387,6 +390,7 @@ tscreen_sequence:
 .thumb
 
 .Lioregs:
+    
     MOV     R2, #0x10  @ ~LDR =0x100
     LSL     R2, R2, #4 @
     MOV     R0, #0x78
@@ -554,6 +558,7 @@ tscreen_sequence:
     BL      .Llinker
 
 .Lend:
+    
     ADD     SP, SP, #0x14
     POP     {R4-R6}
     POP     {R0}
