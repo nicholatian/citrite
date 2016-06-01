@@ -32,11 +32,30 @@
 0x84AA4 = word: map_bank_header
 0x849CC = word: map_layout_table
 
+# temp titlescreen hooks
+0xAA8CA = hword: nop_inst
+0xAA8CC = hword: nop_inst
+0xAA8F6 = hword: nop_inst
+0xAA8F8 = hword: nop_inst
+0xAA8FE = hword: nop_inst
+0xAA900 = hword: nop_inst
+0xAA958 = word: titlescreen_pal
+0xAA95C = word: titlescreen_img
+0xAA960 = word: tscreen_img_vramaddr
+0xAA964 = word: titlescreen_map
+0xAA968 = word: tscreen_map_vramaddr
+
+0xAAAAA = hword: nop_inst
+0xAAAAC = hword: nop_inst
+0xAAAD8 = word: tscreen_ioreg_a
+0xAAADC = word: tscreen_ioreg_b
+0xAAAE0 = word: tscreen_ioreg_c
+
 # title screen hooks
 
-0x186E8  = word: tscreen_sequence|1
-0x305A0  = word: tscreen_sequence|1
-0x16CC6C = word: tscreen_sequence|1
+#0x186E8  = word: tscreen_sequence|1
+#0x305A0  = word: tscreen_sequence|1
+#0x16CC6C = word: tscreen_sequence|1
 0x5400F0 = word: tscreen_press_start_img
 0x540100 = word: tscreen_press_start_pal
 0x540048 = word: blank_64x64_img
