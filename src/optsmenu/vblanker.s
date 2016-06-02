@@ -28,22 +28,35 @@
 .section .text
 .balign 4
 .thumb_func
-.globl optsmenu_vblanker
+.globl optsmenu_load_vblanker
 
 optsmenu_load_vblanker:
     
     PUSH    {LR}
-    LDR     R1, gpu_sprites_upload
+    LDR     R1, =gpu_sprites_upload
     BL      .Llinker
     
-    LDR     R1, copy_queue_process
+    LDR     R1, =copy_queue_process
     BL      .Llinker
     
-    LDR     R1, gpu_pal_upload
+    LDR     R1, =gpu_pal_upload
     BL      .Llinker
     
     POP     {R0}
     BX      R0
+
+@ -----------------------------------------------------------------------------
+
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
 
 .Llinker:
     

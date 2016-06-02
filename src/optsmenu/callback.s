@@ -33,20 +33,33 @@
 optsmenu_load_callback:
     
     PUSH    {LR}
-    LDR     R1, task_exec
+    LDR     R1, =task_exec
     BL      .Llinker
     
-    LDR     R1, objc_exec
+    LDR     R1, =objc_exec
     BL      .Llinker
     
-    LDR     R1, obj_sync_something
+    LDR     R1, =obj_sync_something
     BL      .Llinker
     
-    LDR     R1, fade_and_return_progress_probably
+    LDR     R1, =fade_and_return_progress_probably
     BL      .Llinker
     
     POP     {R0}
     BX      R0
+
+@ -----------------------------------------------------------------------------
+
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
 
 .Llinker:
     
