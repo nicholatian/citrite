@@ -82,6 +82,7 @@ optsmenu_switch:
     
     MOVS    R0, #0
     LDR     R8, =vblank_handler_set
+    BL      .Llinker
     
     LDR     R1, =super
     MOVS    R0, #0x438
@@ -163,97 +164,120 @@ optsmenu_switch:
     MOVS    R0, #0                      @ ioreg
     MOVS    R1, #0                      @ value
     LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0
     LDR     R8, =sub_080017BC
+    BL      .Llinker
     
     LDR     R1, =0x855C698
     MOVS    R0, #0
     MOVS    R2, #2
     LDR     R8, =bg_vram_setup
+    BL      .Llinker
     
     MOVS    R0, #0
     MOVS    R1, #0
     MOVS    R2, #0
     LDR     R8, =bgid_mod_x_offset
+    BL      .Llinker
     
     MOVS    R0, #1
     MOVS    R1, #0
     MOVS    R2, #0
     @LDR     R8, =bgid_mod_x_offset
+    BL      .Llinker
     
     MOVS    R0, #2
     MOVS    R1, #0
     MOVS    R2, #0
     @LDR     R8, =bgid_mod_x_offset
+    BL      .Llinker
     
     MOVS    R0, #3
     MOVS    R1, #0
     MOVS    R2, #0
     @LDR     R8, =bgid_mod_x_offset
+    BL      .Llinker
     
     MOVS    R0, #0
     MOVS    R1, #0
     MOVS    R2, #0
     LDR     R8, =bgid_mod_y_offset
+    BL      .Llinker
     
     MOVS    R0, #1
     MOVS    R1, #0
     MOVS    R2, #0
     @LDR     R8, =bgid_mod_y_offset
+    BL      .Llinker
     
     MOVS    R0, #2
     MOVS    R1, #0
     MOVS    R2, #0
     @LDR     R8, =bgid_mod_y_offset
+    BL      .Llinker
     
     MOVS    R0, #3
     MOVS    R1, #0
     MOVS    R2, #0
     @LDR     R8, =bgid_mod_y_offset
+    BL      .Llinker
     
     LDR     R0, =0x855C680
     LDR     R8, =textbox_bg_init
+    BL      .Llinker
     
     LDR     R8, =sub_080045B0
+    BL      .Llinker
     
     MOVS    R0, #0x40 @ '@'             @ ioreg
     MOVS    R1, #0                      @ value
     LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0x44 @ 'D'             @ ioreg
     MOVS    R1, #0                      @ value
     @LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0x48 @ 'H'             @ ioreg
     MOVS    R1, #1                      @ value
     @LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0x4A @ 'J'             @ ioreg
     MOVS    R1, #0x23 @ '#'             @ value
     @LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0x50 @ 'P'             @ ioreg
     MOVS    R1, #0xC1 @ '-'             @ value
     @LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0x52 @ 'R'             @ ioreg
     MOVS    R1, #0                      @ value
     @LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0x54 @ 'T'             @ ioreg
     MOVS    R1, #4                      @ value
     @LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R1, #0x3040                 @ value
     MOVS    R0, #0                      @ ioreg
     @LDR     R8, =lcd_io_set
+    BL      .Llinker
     
     MOVS    R0, #0
     LDR     R8, =gpu_sync_bg_show
+    BL      .Llinker
     
     MOVS    R0, #1
     @LDR     R8, =gpu_sync_bg_show
+    BL      .Llinker
     
     B       .Lincr_supertracker
 
@@ -273,12 +297,16 @@ optsmenu_switch:
 .Lcase2:
     
     LDR     R8, =boot_fade_sequence
+    BL      .Llinker
     
     LDR     R8, =dma_task_delete_something
+    BL      .Llinker
     
     LDR     R8, =tasks_init
+    BL      .Llinker
     
     LDR     R8, =obj_and_aux_reset_all
+    BL      .Llinker
     
     LDR     R1, =super
     MOVS    R0, #0x438
@@ -305,12 +333,14 @@ optsmenu_switch:
     LDRB    R0, [R0,#0x14]
     LSRS    R0, R0, #3
     LDR     R8, =load_rbox_tiles_addr
+    BL      .Llinker
     
     LDR     R1, [R0]
     MOVS    R2, #0x120
     MOVS    R3, #0x1A2
     MOVS    R0, #1                      @ DING DING DING
     LDR     R8, =gpu_copy_to_tileset
+    BL      .Llinker
     
     B       .Lincr_supertracker
 
@@ -333,17 +363,20 @@ optsmenu_switch:
     MOVS    R1, #0
     MOVS    R2, #2
     LDR     R8, =gpu_pal_apply
+    BL      .Llinker
     
     LDR     R0, [R0,#4]
     MOVS    R1, #0x70 @ 'p'
     MOVS    R2, #0x20 @ ' '
     @LDR     R8, =gpu_pal_apply
+    BL      .Llinker
     
     LDR     R0, =dword_03005D90
     LDR     R0, [R0]
     LDRB    R0, [R0,#0x14]
     LSRS    R0, R0, #3
     LDR     R8, =load_rbox_tiles_addr
+    BL      .Llinker
     
     LDR     R1, =super
     MOVS    R0, #0x438
@@ -369,6 +402,7 @@ optsmenu_switch:
     MOVS    R1, #0x10
     MOVS    R2, #0x20 @ ' '
     LDR     R8, =gpu_pal_apply
+    BL      .Llinker
     
     B       .Lincr_supertracker
 
@@ -389,8 +423,10 @@ optsmenu_switch:
     
     MOVS    R0, #0
     LDR     R8, =enable_rbox
+    BL      .Llinker
     
     LDR     R8, =optsmenu_tilemap_load_sth2
+    BL      .Llinker
     
     LDR     R1, =super
     MOVS    R0, #0x438
@@ -422,8 +458,10 @@ optsmenu_switch:
     
     MOVS    R0, #1
     LDR     R8, =enable_rbox
+    BL      .Llinker
     
     LDR     R8, =optsmenu_tilemap_load_sth
+    BL      .Llinker
     
     LDR     R1, =super
     MOVS    R2, #0x438
@@ -435,6 +473,7 @@ optsmenu_switch:
 .Lcase9:
     
     LDR     R8, =optsmenu_tilemap_sth
+    BL      .Llinker
     
     LDR     R1, =super
     MOVS    R0, #0x438
@@ -459,6 +498,7 @@ optsmenu_switch:
     LDR     R0, =(sub_080BA83C+1)
     MOVS    R1, #0
     LDR     R8, =task_add
+    BL      .Llinker
     
     LSLS    R0, R0, #0x18
     LSRS    R0, R0, #0x18
@@ -493,24 +533,31 @@ optsmenu_switch:
     LSRS    R1, R1, #3
     STRH    R1, [R4,#0x14]
     LDR     R8, =optsmenu_loadtext_textspeed
+    BL      .Llinker
     
     LDRB    R0, [R4,#0xC]
     LDR     R8, =optsmenu_loadtext_battlescene
+    BL      .Llinker
     
     LDRB    R0, [R4,#0xE]
     LDR     R8, =optsmenu_loadtext_battlestyle
+    BL      .Llinker
     
     LDRB    R0, [R4,#0x10]
     LDR     R8, =optsmenu_loadtext_sound
+    BL      .Llinker
     
     LDRB    R0, [R4,#0x12]
     LDR     R8, =optsmenu_loadtext_buttons
+    BL      .Llinker
     
     LDRB    R0, [R4,#0x14]
     LDR     R8, =optsmenu_loadtext_menustyle
+    BL      .Llinker
     
     LDRB    R0, [R4,#8]
     LDR     R8, =optsmenu_load_highlight_overlay
+    BL      .Llinker
     
     MOVS    R0, #1                      @ a1
     MOVS    R1, #3                      @ vram_offs
@@ -551,9 +598,11 @@ optsmenu_switch:
     MOVS    R2, #0x10                   @ a3
     MOVS    R3, #0                      @ a4
     LDR     R8, =fade_screen
+    BL      .Llinker
     
     LDR     R0, =optsmenu_load_vblanker
     LDR     R8, =vblank_handler_set
+    BL      .Llinker
     
     LDR     R0, =optsmenu_load_callback
     LDR     R8, =set_callback2
