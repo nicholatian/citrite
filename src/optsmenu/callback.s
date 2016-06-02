@@ -51,7 +51,7 @@ optsmenu_load_callback:
 @ -----------------------------------------------------------------------------
 
 .section .data
-.balign 4
+.balign 4, 0
 
 .pool
 

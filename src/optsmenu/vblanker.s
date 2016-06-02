@@ -48,7 +48,7 @@ optsmenu_load_vblanker:
 @ -----------------------------------------------------------------------------
 
 .section .data
-.balign 4
+.balign 4, 0
 
 .pool
 
