@@ -16,7 +16,7 @@
 @@                                                                           @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.file "tscreen_sequence.s"
+.file "citgpu/showbg.s"
 .ident "AS: (devkitARM release 45) 2.25.1"
 
 @ =========================== S U B R O U T I N E =========================== @
@@ -35,20 +35,21 @@
 
 citgpu_show_bg:
     
-    PUSH    {R4-R5,R8-R11,LR}
+    PUSH    {LR}
+    PUSH    {R4,R5,R8-R11}
     
     @ return immediately if any arguments are out of bounds
     CMP     R0, #3
-    BGT     .Lshowbg_return
+    BGT     .Lreturn
     
     CMP     R1, #3
-    BGT     .Lshowbg_return
+    BGT     .Lreturn
     
     CMP     R2, #0x1F
-    BGT     .Lshowbg_return
+    BGT     .Lreturn
     
     CMP     R3, #1
-    BGT     .Lshowbg_return
+    BGT     .Lreturn
     
     @ save our arguments for later
     MOV     R8, R0
@@ -58,7 +59,9 @@ citgpu_show_bg:
     
     @ piece together BG?CNT
     @ note that the BGID is already ready to go
-    BL      citgpu_get_priority
+    LDR     R1, =citgpu_get_priority
+    BL      .Llinker
+    
     MOV     R1, R9
     LSL     R1, R1, #2
     ORR     R0, R0, R1
@@ -78,62 +81,21 @@ citgpu_show_bg:
     @ Store the value :)
     STR     R4, [R5,#8] @ adjusted by 8 to access BG?CNT
 
-.Lshowbg_return:
+.Lreturn:
     
     POP     {R4-R5,R8-R11}
     POP     {R0}
     BX      R0
 
-@ =========================== S U B R O U T I N E =========================== @
-@
-@ TITLE:       Citrite BG priority getter
-@ DESCRIPTION: This subroutine takes a BGID and returns a priority based on it.
-@              The higher the BGID, the higher the effective priority it will
-@              have.
+.section .data
+.balign 4, 0
+
+.pool
 
 .section .text
-.balign 4
-.thumb_func
-.globl citgpu_get_priority
+.balign 2
+.thumb
 
-citgpu_get_priority:
+.Llinker:
     
-    PUSH    {LR}
-    
-    @ return immediately if any arguments are out of bounds
-    CMP     R0, #3
-    BGT     .Lgetp_return
-    
-    BEQ     .Lset_0
-    
-    CMP     R0, #2
-    BEQ     .Lset_1
-    
-    CMP     R0, #1
-    BEQ     .Lset_2
-    
-    BLT     .Lset_3
-
-.Lset_0:
-    
-    MOV     R0, #0
-    B       .Lgetp_return
-
-.Lset_1:
-    
-    MOV     R0, #1
-    B       .Lgetp_return
-
-.Lset_2:
-    
-    MOV     R0, #2
-    B       .Lgetp_return
-
-.Lset_3:
-    
-    MOV     R0, #3
-
-.Lgetp_return:
-    
-    POP     {R1}
     BX      R1
