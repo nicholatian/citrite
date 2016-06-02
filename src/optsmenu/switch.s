@@ -1,15 +1,37 @@
-@ =============== S U B R O U T I N E =======================================
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@                                                                           @@
+@@   ########## ####### ######### ##########  ####### ######### ##########   @@
+@@   ###    ###   ###   #  ###  # ###     ###   ###   #  ###  # ###    ###   @@
+@@   ###          ###      ###    ###     ###   ###      ###    ###          @@
+@@   ###          ###      ###    #########     ###      ###    #######      @@
+@@   ###          ###      ###    ###   ###     ###      ###    ###          @@
+@@   ###    ###   ###      ###    ###    ###    ###      ###    ###    ###   @@
+@@   ########## #######    ###    ###     ### #######    ###    ##########   @@
+@@                                                                           @@
+@@                          Pokémon Citrite Version                          @@
+@@                              OFFICIAL Source                              @@
+@@                                                                           @@
+@@                  Copyright © 2014-2016 Alexander Nicholi                  @@
+@@                            All rights reserved                            @@
+@@                                                                           @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+.file "optsmenu/switch.s"
+.ident "AS: (devkitARM release 45) 2.25.1"
 
-optsmenu_switch:                        @ DATA XREF: sub_0803027C+1EAo
-                                        @ sub_0803027C:off_08030474o
-                                        @ sub_0809FD20+24o ROM:off_0809FD58o
+@ =========================== S U B R O U T I N E =========================== @
+@
+@ TITLE:       Options menu loading case-switch
+@ DESCRIPTION: 
 
-a5  = -0x24
-var_20= -0x20
-var_1C= -0x1C
+.section .text
+.balign 4
+.thumb_func
+.globl optsmenu_switch
 
-    PUSH    {R4-R7,LR}
+optsmenu_switch:
+    
+    PUSH    {R4-R8,LR}
     MOV     R7, R8
     PUSH    {R7}
     SUB     SP, SP, #0xC
@@ -18,57 +40,74 @@ var_1C= -0x1C
     ADDS    R0, R1, R2
     LDRB    R0, [R0]
     MOVS    R2, R1
-    CMP     R0, #0xB                    @ switch 12 cases
-    BHI     loc_080BA538                @ jumptable 080BA4FC default case
-
+    CMP     R0, #0xB
+    BHI     .Lcase0
+    
+    @ Jump table switch
     LSLS    R0, R0, #2
-    LDR     R1, =jpt_80BA4FC
+    LDR     R1, =.Ljpt
     ADDS    R0, R0, R1
     LDR     R0, [R0]
-    MOV     PC, R0                      @ switch jump
+    MOV     PC, R0
 
-@ ---------------------------------------------------------------------------
-    .align 4
-off_080BA500:.long super                @ DATA XREF: optsmenu_switch+8r
-off_080BA504:.long jpt_80BA4FC          @ DATA XREF: optsmenu_switch+1Ar
-jpt_80BA4FC:.long loc_080BA538          @ DATA XREF: optsmenu_switch+1Ao
-                                        @ optsmenu_switch:off_080BA504o
-                                        @ jump table for switch statement
-    .long loc_080BA54C                  @ jumptable 080BA4FC case 1
-    .long loc_080BA69C                  @ jumptable 080BA4FC case 2
-    .long load_rbox_tiles               @ jumptable 080BA4FC case 3
-    .long loc_080BA6E0                  @ jumptable 080BA4FC case 4
-    .long loc_080BA718                  @ jumptable 080BA4FC case 5
-    .long loc_080BA728                  @ jumptable 080BA4FC case 6
-    .long case7                         @ jumptable 080BA4FC case 7
-    .long case8                         @ jumptable 080BA4FC case 8
-    .long case9                         @ jumptable 080BA4FC case 9
-    .long case10                        @ jumptable 080BA4FC case 10
-    .long cleanup                       @ jumptable 080BA4FC case 11
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-loc_080BA538:                           @ CODE XREF: optsmenu_switch+16j
-                                        @ optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch:jpt_80BA4FCo
-    MOVS    R0, #0                      @ jumptable 080BA4FC default case
-    BL      vblank_handler_set
+.section .data
+.balign 4, 0
 
+.pool
+
+.Ljpt:
+    
+    .long .Lcase0                       @ jumptable case 0
+    .long .Lcase1                       @ jumptable case 1
+    .long .Lcase2                       @ jumptable case 2
+    .long .Lload_rbox_tiles             @ jumptable case 3
+    .long .Lcase4                       @ jumptable case 4
+    .long .Lcase5                       @ jumptable case 5
+    .long .Lcase6                       @ jumptable case 6
+    .long .Lcase7                       @ jumptable case 7
+    .long .Lcase8                       @ jumptable case 8
+    .long .Lcase9                       @ jumptable case 9
+    .long .Lcase10                      @ jumptable case 10
+    .long .Lcleanup                     @ jumptable case 11
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Lcase0:
+    
+    MOVS    R0, #0
+    LDR     R8, =vblank_handler_set
+    
     LDR     R1, =super
-    MOVS    R0, #superstate.multi_purpose_state_tracker
+    MOVS    R0, #0x438
     ADDS    R1, R1, R0
-    B       incr_counter
+    B       .Lincr_counter
 
-@ ---------------------------------------------------------------------------
-off_080BA548:.long super                @ DATA XREF: optsmenu_switch+62r
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-loc_080BA54C:                           @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+30o
-    MOVS    R3, #0x6000000              @ jumptable 080BA4FC case 1
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Lcase1:
+    
+    MOVS    R3, #0x6000000
     MOVS    R4, #0x18000
-    ADD     R1, SP, #0x24+var_1C
+    ADD     R1, SP, #8
     MOV     R8, R1
-    ADD     R2, SP, #0x24+var_20
+    ADD     R2, SP, #4
     MOVS    R6, #0
     LDR     R1, =io_dma3sad
     MOVS    R5, #0x1000
@@ -76,301 +115,351 @@ loc_080BA54C:                           @ CODE XREF: optsmenu_switch+20j
     MOVS    R0, #0x81000000
     MOV     R12, R0
 
-
-loc_080BA56A:                           @ CODE XREF: optsmenu_switch+A0j
+.Lcase1_loop:
+    
     STRH    R6, [R2]
-    ADD     R0, SP, #0x24+var_20
+    ADD     R0, SP, #4
     STR     R0, [R1]
-    STR     R3, [R1,#(io_dma3dad - 0x40000D4)]
-    STR     R7, [R1,#(io_dma3cnt_l - 0x40000D4)]
-    LDR     R0, [R1,#(io_dma3cnt_l - 0x40000D4)]
+    STR     R3, [R1,#4]
+    STR     R7, [R1,#8]
+    LDR     R0, [R1,#8]
     ADDS    R3, R3, R5
     SUBS    R4, R4, R5
     CMP     R4, R5
-    BHI     loc_080BA56A
-
+    BHI     .Lcase1_loop
+    
     STRH    R6, [R2]
-    ADD     R2, SP, #0x24+var_20
+    ADD     R2, SP, #4
     STR     R2, [R1]
-    STR     R3, [R1,#(io_dma3dad - 0x40000D4)]
+    STR     R3, [R1,#4]
     LSRS    R0, R4, #1
     MOV     R2, R12
     ORRS    R0, R2
-    STR     R0, [R1,#(io_dma3cnt_l - 0x40000D4)]
-    LDR     R0, [R1,#(io_dma3cnt_l - 0x40000D4)]
+    STR     R0, [R1,#8]
+    LDR     R0, [R1,#8]
     MOVS    R0, #0x7000000
     MOVS    R3, #0x400
     MOVS    R4, #0
-    STR     R4, [SP,#0x24+var_1C]
+    STR     R4, [SP,#8]
     LDR     R2, =io_dma3sad
     MOV     R1, R8
     STR     R1, [R2]
-    STR     R0, [R2,#(io_dma3dad - 0x40000D4)]
+    STR     R0, [R2,#4]
     LSRS    R0, R3, #2
     MOVS    R1, #0x85000000
     ORRS    R0, R1
-    STR     R0, [R2,#(io_dma3cnt_l - 0x40000D4)]
-    LDR     R0, [R2,#(io_dma3cnt_l - 0x40000D4)]
+    STR     R0, [R2,#8]
+    LDR     R0, [R2,#8]
     MOVS    R1, #0x5000000
-    ADD     R0, SP, #0x24+var_20
+    ADD     R0, SP, #4
     STRH    R4, [R0]
     STR     R0, [R2]
-    STR     R1, [R2,#(io_dma3dad - 0x40000D4)]
+    STR     R1, [R2,#4]
     LSRS    R3, R3, #1
     MOVS    R0, #0x81000000
     ORRS    R3, R0
-    STR     R3, [R2,#(io_dma3cnt_l - 0x40000D4)]
-    LDR     R0, [R2,#(io_dma3cnt_l - 0x40000D4)]
+    STR     R3, [R2,#8]
+    LDR     R0, [R2,#8]
     MOVS    R0, #0                      @ ioreg
     MOVS    R1, #0                      @ value
-    BL      lcd_io_set
-
+    LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0
-    BL      sub_080017BC
-
-    LDR     R1, =dword_0855C698
+    LDR     R8, =sub_080017BC
+    
+    LDR     R1, =0x855C698
     MOVS    R0, #0
     MOVS    R2, #2
-    BL      bg_vram_setup
-
+    LDR     R8, =bg_vram_setup
+    
     MOVS    R0, #0
     MOVS    R1, #0
     MOVS    R2, #0
-    BL      bgid_mod_x_offset
-
+    LDR     R8, =bgid_mod_x_offset
+    
+    MOVS    R0, #1
+    MOVS    R1, #0
+    MOVS    R2, #0
+    @LDR     R8, =bgid_mod_x_offset
+    
+    MOVS    R0, #2
+    MOVS    R1, #0
+    MOVS    R2, #0
+    @LDR     R8, =bgid_mod_x_offset
+    
+    MOVS    R0, #3
+    MOVS    R1, #0
+    MOVS    R2, #0
+    @LDR     R8, =bgid_mod_x_offset
+    
     MOVS    R0, #0
     MOVS    R1, #0
     MOVS    R2, #0
-    BL      bgid_mod_y_offset
-
+    LDR     R8, =bgid_mod_y_offset
+    
     MOVS    R0, #1
     MOVS    R1, #0
     MOVS    R2, #0
-    BL      bgid_mod_x_offset
-
-    MOVS    R0, #1
-    MOVS    R1, #0
-    MOVS    R2, #0
-    BL      bgid_mod_y_offset
-
+    @LDR     R8, =bgid_mod_y_offset
+    
     MOVS    R0, #2
     MOVS    R1, #0
     MOVS    R2, #0
-    BL      bgid_mod_x_offset
-
-    MOVS    R0, #2
-    MOVS    R1, #0
-    MOVS    R2, #0
-    BL      bgid_mod_y_offset
-
+    @LDR     R8, =bgid_mod_y_offset
+    
     MOVS    R0, #3
     MOVS    R1, #0
     MOVS    R2, #0
-    BL      bgid_mod_x_offset
-
-    MOVS    R0, #3
-    MOVS    R1, #0
-    MOVS    R2, #0
-    BL      bgid_mod_y_offset
-
-    LDR     R0, =dword_0855C680
-    BL      textbox_bg_init
-
-    BL      sub_080045B0
-
+    @LDR     R8, =bgid_mod_y_offset
+    
+    LDR     R0, =0x855C680
+    LDR     R8, =textbox_bg_init
+    
+    LDR     R8, =sub_080045B0
+    
     MOVS    R0, #0x40 @ '@'             @ ioreg
     MOVS    R1, #0                      @ value
-    BL      lcd_io_set
-
+    LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0x44 @ 'D'             @ ioreg
     MOVS    R1, #0                      @ value
-    BL      lcd_io_set
-
+    @LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0x48 @ 'H'             @ ioreg
     MOVS    R1, #1                      @ value
-    BL      lcd_io_set
-
+    @LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0x4A @ 'J'             @ ioreg
     MOVS    R1, #0x23 @ '#'             @ value
-    BL      lcd_io_set
-
+    @LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0x50 @ 'P'             @ ioreg
     MOVS    R1, #0xC1 @ '-'             @ value
-    BL      lcd_io_set
-
+    @LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0x52 @ 'R'             @ ioreg
     MOVS    R1, #0                      @ value
-    BL      lcd_io_set
-
+    @LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0x54 @ 'T'             @ ioreg
     MOVS    R1, #4                      @ value
-    BL      lcd_io_set
-
+    @LDR     R8, =lcd_io_set
+    
     MOVS    R1, #0x3040                 @ value
     MOVS    R0, #0                      @ ioreg
-    BL      lcd_io_set
-
+    @LDR     R8, =lcd_io_set
+    
     MOVS    R0, #0
-    BL      gpu_sync_bg_show
-
+    LDR     R8, =gpu_sync_bg_show
+    
     MOVS    R0, #1
-    BL      gpu_sync_bg_show
+    @LDR     R8, =gpu_sync_bg_show
+    
+    B       .Lincr_supertracker
 
-    B       incr_supertracker
+@ -----------------------------------------------------------------------------
 
-@ ---------------------------------------------------------------------------
-    .align 4
-off_080BA68C:.long io_dma3sad           @ DATA XREF: optsmenu_switch+80r
-                                        @ optsmenu_switch+C0r
-dword_080BA690:.long 0x81000800         @ DATA XREF: optsmenu_switch+86r
-off_080BA694:.long dword_0855C698       @ DATA XREF: optsmenu_switch+FAr
-off_080BA698:.long dword_0855C680       @ DATA XREF: optsmenu_switch+154r
-@ ---------------------------------------------------------------------------
+.section .data
+.balign 4
 
-loc_080BA69C:                           @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+34o
-    BL      boot_fade_sequence          @ jumptable 080BA4FC case 2
+.pool
 
-    BL      dma_task_delete_something
+@ -----------------------------------------------------------------------------
 
-    BL      tasks_init
+.section .text
+.balign 2
+.thumb
 
-    BL      obj_and_aux_reset_all
-
+.Lcase2:
+    
+    LDR     R8, =boot_fade_sequence
+    
+    LDR     R8, =dma_task_delete_something
+    
+    LDR     R8, =tasks_init
+    
+    LDR     R8, =obj_and_aux_reset_all
+    
     LDR     R1, =super
-    MOVS    R0, #superstate.multi_purpose_state_tracker
+    MOVS    R0, #0x438
     ADDS    R1, R1, R0
-    B       incr_counter
+    B       .Lincr_counter
 
-@ ---------------------------------------------------------------------------
-    .align 4
-off_080BA6B8:.long super                @ DATA XREF: optsmenu_switch+1D0r
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-load_rbox_tiles:                        @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+38o
-    LDR     R0, =dword_03005D90         @ jumptable 080BA4FC case 3
-    LDR     R0, [R0]
-    LDRB    R0, [R0,#0x14]
-    LSRS    R0, R0, #3
-    BL      load_rbox_tiles_addr
+.section .data
+.balign 4
 
-    LDR     R1, [R0]
-    MOVS    R2, #0x120
-    MOVS    R3, #0x1A2
-    MOVS    R0, #1                      @ DING DING DING
-    BL      gpu_copy_to_tileset
+.pool
 
-    B       incr_supertracker
+@ -----------------------------------------------------------------------------
 
-@ ---------------------------------------------------------------------------
-    .align 4
-off_080BA6DC:.long dword_03005D90       @ DATA XREF: optsmenu_switch:load_rbox_tilesr
-@ ---------------------------------------------------------------------------
+.section .text
+.balign 2
+.thumb
 
-loc_080BA6E0:                           @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+3Co
-    LDR     R0, =pal_green_yellow_gradient @ jumptable 080BA4FC case 4
-    MOVS    R1, #0
-    MOVS    R2, #2
-    BL      gpu_pal_apply
-
+.Lload_rbox_tiles:
+    
     LDR     R0, =dword_03005D90
     LDR     R0, [R0]
     LDRB    R0, [R0,#0x14]
     LSRS    R0, R0, #3
-    BL      load_rbox_tiles_addr
+    LDR     R8, =load_rbox_tiles_addr
+    
+    LDR     R1, [R0]
+    MOVS    R2, #0x120
+    MOVS    R3, #0x1A2
+    MOVS    R0, #1                      @ DING DING DING
+    LDR     R8, =gpu_copy_to_tileset
+    
+    B       .Lincr_supertracker
 
+@ -----------------------------------------------------------------------------
+
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Lcase4:
+    
+    LDR     R0, =pal_green_yellow_gradient
+    MOVS    R1, #0
+    MOVS    R2, #2
+    LDR     R8, =gpu_pal_apply
+    
     LDR     R0, [R0,#4]
     MOVS    R1, #0x70 @ 'p'
     MOVS    R2, #0x20 @ ' '
-    BL      gpu_pal_apply
-
+    @LDR     R8, =gpu_pal_apply
+    
+    LDR     R0, =dword_03005D90
+    LDR     R0, [R0]
+    LDRB    R0, [R0,#0x14]
+    LSRS    R0, R0, #3
+    LDR     R8, =load_rbox_tiles_addr
+    
     LDR     R1, =super
-    MOVS    R0, #superstate.multi_purpose_state_tracker
+    MOVS    R0, #0x438
     ADDS    R1, R1, R0
-    B       incr_counter
+    B       .Lincr_counter
 
-@ ---------------------------------------------------------------------------
-    .align 4
-off_080BA70C:.long pal_green_yellow_gradient @ DATA XREF: optsmenu_switch:loc_080BA6E0r
-off_080BA710:.long dword_03005D90       @ DATA XREF: optsmenu_switch+20Er
-off_080BA714:.long super                @ DATA XREF: optsmenu_switch+224r
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-loc_080BA718:                           @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+40o
-    LDR     R0, =optsmenu_special_text_pal @ jumptable 080BA4FC case 5
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Lcase5:
+    
+    LDR     R0, =optsmenu_special_text_pal
     MOVS    R1, #0x10
     MOVS    R2, #0x20 @ ' '
-    BL      gpu_pal_apply
+    LDR     R8, =gpu_pal_apply
+    
+    B       .Lincr_supertracker
 
-    B       incr_supertracker
+@ -----------------------------------------------------------------------------
 
-@ ---------------------------------------------------------------------------
-off_080BA724:.long optsmenu_special_text_pal @ DATA XREF: optsmenu_switch:loc_080BA718r
-@ ---------------------------------------------------------------------------
+.section .data
+.balign 4
 
-loc_080BA728:                           @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+44o
-    MOVS    R0, #0                      @ jumptable 080BA4FC case 6
-    BL      enable_rbox
+.pool
 
-    BL      optsmenu_tilemap_load_sth2
+@ -----------------------------------------------------------------------------
 
+.section .text
+.balign 2
+.thumb
+
+.Lcase6:
+    
+    MOVS    R0, #0
+    LDR     R8, =enable_rbox
+    
+    LDR     R8, =optsmenu_tilemap_load_sth2
+    
     LDR     R1, =super
-    MOVS    R0, #superstate.multi_purpose_state_tracker
+    MOVS    R0, #0x438
     ADDS    R1, R1, R0
-    B       incr_counter
+    B       .Lincr_counter
 
-@ ---------------------------------------------------------------------------
-off_080BA73C:.long super                @ DATA XREF: optsmenu_switch+256r
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-case7:                                  @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+48o
-    MOVS    R0, #superstate.multi_purpose_state_tracker @ jumptable 080BA4FC case 7
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Lcase7:
+    
+    MOVS    R0, #0x438 @ jumptable case 7
     ADDS    R1, R2, R0
-    B       incr_counter
+    B       .Lincr_counter
 
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-case8:                                  @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+4Co
-    MOVS    R0, #1                      @ jumptable 080BA4FC case 8
-    BL      enable_rbox
-
-    BL      optsmenu_tilemap_load_sth
-
+.Lcase8:
+    
+    MOVS    R0, #1
+    LDR     R8, =enable_rbox
+    
+    LDR     R8, =optsmenu_tilemap_load_sth
+    
     LDR     R1, =super
-    MOVS    R2, #superstate.multi_purpose_state_tracker
+    MOVS    R2, #0x438
     ADDS    R1, R1, R2
     LDRB    R0, [R1]
     ADDS    R0, #1
     STRB    R0, [R1]
 
-
-case9:                                  @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+50o
-    BL      optsmenu_tilemap_sth        @ jumptable 080BA4FC case 9
-
+.Lcase9:
+    
+    LDR     R8, =optsmenu_tilemap_sth
+    
     LDR     R1, =super
-    MOVS    R0, #superstate.multi_purpose_state_tracker
+    MOVS    R0, #0x438
     ADDS    R1, R1, R0
-    B       incr_counter
+    B       .Lincr_counter
 
-@ ---------------------------------------------------------------------------
-    .align 4
-off_080BA770:.long super                @ DATA XREF: optsmenu_switch+276r
-                                        @ optsmenu_switch+288r
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-case10:                                 @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+54o
-    LDR     R0, =(sub_080BA83C+1)       @ jumptable 080BA4FC case 10
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Lcase10:
+    
+    LDR     R0, =(sub_080BA83C+1)
     MOVS    R1, #0
-    BL      task_add
-
+    LDR     R8, =task_add
+    
     LSLS    R0, R0, #0x18
     LSRS    R0, R0, #0x18
     LDR     R1, =tasks
@@ -380,7 +469,7 @@ case10:                                 @ CODE XREF: optsmenu_switch+20j
     ADDS    R4, R4, R1
     MOVS    R0, #0
     STRH    R0, [R4,#8]
-    LDR     R0, =dword_03005D90
+    LDR     R0, =0x3005D90
     LDR     R2, [R0]
     LDRB    R0, [R2,#0x14]
     LSLS    R0, R0, #0x1D
@@ -403,85 +492,98 @@ case10:                                 @ CODE XREF: optsmenu_switch+20j
     LDRB    R1, [R2,#0x14]
     LSRS    R1, R1, #3
     STRH    R1, [R4,#0x14]
-    BL      optsmenu_loadtext_textspeed
-
+    LDR     R8, =optsmenu_loadtext_textspeed
+    
     LDRB    R0, [R4,#0xC]
-    BL      optsmenu_loadtext_battlescene
-
+    LDR     R8, =optsmenu_loadtext_battlescene
+    
     LDRB    R0, [R4,#0xE]
-    BL      optsmenu_loadtext_battlestyle
-
+    LDR     R8, =optsmenu_loadtext_battlestyle
+    
     LDRB    R0, [R4,#0x10]
-    BL      optsmenu_loadtext_sound
-
+    LDR     R8, =optsmenu_loadtext_sound
+    
     LDRB    R0, [R4,#0x12]
-    BL      optsmenu_loadtext_buttons
-
+    LDR     R8, =optsmenu_loadtext_buttons
+    
     LDRB    R0, [R4,#0x14]
-    BL      optsmenu_loadtext_menustyle
-
+    LDR     R8, =optsmenu_loadtext_menustyle
+    
     LDRB    R0, [R4,#8]
-    BL      optsmenu_load_highlight_overlay
-
+    LDR     R8, =optsmenu_load_highlight_overlay
+    
     MOVS    R0, #1                      @ a1
     MOVS    R1, #3                      @ vram_offs
-    BL      rboxid_to_vram
+    LDR     R8, =rboxid_to_vram
 
-
-incr_supertracker:                      @ CODE XREF: optsmenu_switch+1ACj
-                                        @ optsmenu_switch+1FCj
-                                        @ optsmenu_switch+246j
+.Lincr_supertracker:
+    
     LDR     R1, =super
-    MOVS    R2, #superstate.multi_purpose_state_tracker
+    MOVS    R2, #0x438
     ADDS    R1, R1, R2
 
-
-incr_counter:                           @ CODE XREF: optsmenu_switch+6Aj
-                                        @ optsmenu_switch+1D8j
-                                        @ optsmenu_switch+22Cj
-                                        @ optsmenu_switch+25Ej
-                                        @ optsmenu_switch+26Aj
-                                        @ optsmenu_switch+290j
+.Lincr_counter:
+    
     LDRB    R0, [R1]
     ADDS    R0, #1
     STRB    R0, [R1]
-    B       return
+    B       .Lreturn
 
-@ ---------------------------------------------------------------------------
-off_080BA7FC:.long sub_080BA83C+1       @ DATA XREF: optsmenu_switch:case10r
-off_080BA800:.long tasks                @ DATA XREF: optsmenu_switch+2A4r
-off_080BA804:.long dword_03005D90       @ DATA XREF: optsmenu_switch+2B2r
-off_080BA808:.long super                @ DATA XREF: optsmenu_switch:incr_supertrackerr
-@ ---------------------------------------------------------------------------
+@ -----------------------------------------------------------------------------
 
-cleanup:                                @ CODE XREF: optsmenu_switch+20j
-                                        @ DATA XREF: optsmenu_switch+58o
-    MOVS    R0, #1                      @ jumptable 080BA4FC case 11
-    NEGS    R0, R0
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Lcleanup:
+    
+    MOVS    R0, #1
+    NEG     R0, R0
     MOVS    R1, #0                      @ a2
-    STR     R1, [SP,#0x24+a5]           @ a5
+    STR     R1, [SP]                    @ a5
     MOVS    R2, #0x10                   @ a3
     MOVS    R3, #0                      @ a4
-    BL      fade_screen
+    LDR     R8, =fade_screen
+    
+    LDR     R0, =optsmenu_load_vblanker
+    LDR     R8, =vblank_handler_set
+    
+    LDR     R0, =optsmenu_load_callback
+    LDR     R8, =set_callback2
 
-    LDR     R0, =(sub_080BA4C8+1)       @ value
-    BL      vblank_handler_set
-
-    LDR     R0, =(sub_080BA4B0+1)
-    BL      set_callback2
-
-
-return:                                 @ CODE XREF: optsmenu_switch+31Ej
+.Lreturn:
+    
     ADD     SP, SP, #0xC
     POP     {R3}
     MOV     R8, R3
-    POP     {R4-R7}
+    POP     {R4-R8}
     POP     {R0}
     BX      R0
 
+@ -----------------------------------------------------------------------------
+
+.section .data
+.balign 4
+
+.pool
+
+@ -----------------------------------------------------------------------------
+
+.section .text
+.balign 2
+.thumb
+
+.Llinker:
+    
+    BX      R8
+
 @ End of function optsmenu_switch
 
-@ ---------------------------------------------------------------------------
-@ uint32_t off_080BA834
-off_080BA834:.long sub_080BA4C8+1       @ DATA XREF: optsmenu_switch+340r
-off_080BA838:.long sub_080BA4B0+1       @ DATA XREF: optsmenu_switch+346r
+@ -----------------------------------------------------------------------------
