@@ -34,7 +34,7 @@ CC   := arm-none-eabi-gcc
 LD   := arm-none-eabi-ld
 OCPY := arm-none-eabi-objcopy
 GFX  := grit
-PY   := /usr/bin/env python3
+PY   := env python3
 
 # Local utilities
 TXT2ASM := $(PY) util/poketext.py
@@ -89,7 +89,7 @@ IMAGES4TNLZ  := $(shell find data/image/ -type f -name '*.4bpp.lz.tn.png')
 IMAGES8TNUNC := $(shell find data/image/ -type f -name '*.8bpp.tn.png')
 IMAGES8TNLZ  := $(shell find data/image/ -type f -name '*.8bpp.lz.tn.png')
 
-# Bitmap images, normal reductions
+# Bitmap images
 IMAGES4BUNC := $(shell find data/image/ -type f -name '*.4bpp.b.png')
 IMAGES4BLZ  := $(shell find data/image/ -type f -name '*.4bpp.lz.b.png')
 IMAGES8BUNC := $(shell find data/image/ -type f -name '*.8bpp.b.png')
@@ -390,12 +390,10 @@ assemble:
 	done
 
 link:
-	@mkdir -p bin
 	@$(LD) $(LDFLAGS) -o bin/citrite.o `find bin/data -type f -name '*.o'` \
 	`find bin/code -type f -name '*.o'`
 
 copybin:
-	@mkdir -p bin
 	@$(OCPY) -O binary bin/citrite.o bin/citrite.bin
 
 insert:
