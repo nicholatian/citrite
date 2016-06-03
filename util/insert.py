@@ -235,4 +235,5 @@ def main(hooksfile, inrom, inhax, inobj, outfile):
     outbin.write(outbuf)
     outbin.close()
 
-main(argv[1], argv[2], argv[3], argv[4], argv[5])
+if __name__ == '__main__':
+    main(argv[1], argv[2], argv[3], argv[4], argv[5])

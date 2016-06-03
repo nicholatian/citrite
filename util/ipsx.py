@@ -146,7 +146,7 @@ def createPatch(orig, modi, rle):
     curoffs = 0
     recsize = 0
     # tokenise all of the changes and their offsets
-    print('Tokenising changes and their offsets… ', end='')
+    print('Tokenising changes and their offsets… ')
     while i < origlen:
         if recsize >= 32767:
             # we’ve reached the maximum record size, flush regardless
@@ -201,7 +201,7 @@ def createPatch(orig, modi, rle):
     # to get its own record the span must contain 8 or more of the same byte
     changect = len(changes)
     if rle:
-        print('RLE compression is ON. Sifting through records’ contents for repeats… ', end='')
+        print('RLE compression is ON. Sifting through records’ contents for repeats… ')
         i        = 0
         # go through each record
         while i < changect:
@@ -276,7 +276,7 @@ def createPatch(orig, modi, rle):
         print('RLE compression is OFF. Skipping removal of repeated sequences.')
     i        = 0
     # load our scattered data into the Patch object
-    print('Loading raw data into the record system… ', end='')
+    print('Loading raw data into the record system… ')
     while i < changect:
         if changes[i] != []:
             size = len(changes[i])
@@ -287,7 +287,7 @@ def createPatch(orig, modi, rle):
     #
     # Generate the binary file from the Patch object
     #
-    print('Generating the patch file… ', end='')
+    print('Generating the patch file… ')
     recordct = len(patch.records)
     patchbin = header.getBytes()
     while i < recordct:
@@ -307,7 +307,7 @@ def applyPatch(binary, patch):
     if(patch[4] != 1):
         print('WARNING: The version specified in the patch’s header is not supported by this utility. PROCEED WITH CAUTION.')
     # parse patch file into an object of records
-    print('Parsing patch records… ', end='')
+    print('Parsing patch records… ')
     i        = 9
     patchlen = len(patch)
     offsets  = []
@@ -345,7 +345,7 @@ def applyPatch(binary, patch):
     recordct = len(offsets)
     print('done.')
     i = 0
-    print('Writing records to ROM… ', end='')
+    print('Writing records to ROM… ')
     while i < recordct:
         i2 = 0
         if offsets[i] >= len(binary):
@@ -357,96 +357,99 @@ def applyPatch(binary, patch):
         i += 1
     print('done.')
     return bytes(binary)
-        
 
-opts  = []
-files = []
-i     = 0
-for arg in argv:
-    if i == 0:
+def main():
+    opts  = []
+    files = []
+    i     = 0
+    for arg in argv:
+        if i == 0:
+            i += 1
+            continue
+        if arg.startswith('-'):
+            opts += [arg]
+        else:
+            files += [arg]
         i += 1
-        continue
-    if arg.startswith('-'):
-        opts += [arg]
-    else:
-        files += [arg]
-    i += 1
-if opts == []:
-    opts = ['-h']
-if '-h' in opts or '--help' in opts:
-    print('')
-    print('Usage:')
-    print('  $ ipsx.py -c <ORIGINAL> <MODIFIED> <PATCH>')
-    print('    Creates an IPSX patch from ORIGINAL and MODIFIED, saved to PATCH.')
-    print('  $ ipsx.py -a <FILE> <PATCH>')
-    print('    Applies IPSX patch file PATCH to FILE.')
-    print('  $ ipsx.py -i <PATCH>')
-    print('    Prints metainformation about IPSX patch file PATCH.')
-    print('  $ ipsx.py -h')
-    print('    Prints this message.')
-    print('  $ ipsx.py -u ...')
-    print('    Forces patch creation to work without RLE compression. Only useful')
-    print('    in tandem with the -c flag; patches have a sentinel for RLE.')
-    print('')
-    exit(0)
-mode = None
-rle  = True
-for opt in opts:
-    if opt == '-c':
-        if mode != None:
-            Error(Msg.ModeAlreadySet)
-            exit(1)
-        mode = 'create'
-    elif opt == '-a':
-        if mode != None:
-            Error(Msg.ModeAlreadySet)
-            exit(1)
-        mode = 'apply'
-    elif opt == '-i':
-        if mode != None:
-            Error(Msg.ModeAlreadySet)
-            exit(1)
-        mode = 'info'
-    elif opt == '-u':
-        rle = False
-    elif opt == '-uc' or opt == '-cu':
-        if mode != None:
-            Error(Msg.ModeAlreadySet)
-            exit(1)
-        mode = 'create'
-        rle = False
-    else:
-        Error(Msg.UnknownOpt)
-        exit(2)
-if mode == None:
-    Error(Msg.ModeNotSet)
-    exit(3)
-filect = len(files)
-if mode == 'create':
-    print('Creation of a patch requested.')
-    if filect != 3:
-        Error(Msg.BadArgCount)
-        exit(4)
-    print('Reading binary files from disk… ', end='')
-    orig = getFileBytes(files[0])
-    print('… ', end='')
-    modi = getFileBytes(files[1])
-    print('done.')
-    ptch = createPatch(orig, modi, rle)
-    print('Writing patch data to file… ', end='')
-    open(files[2], 'wb').write(ptch)
-    print('done.')
-elif mode == 'apply':
-    print('Application of a patch requested.')
-    if filect != 2:
-        Error(Msg.BadArgCount)
-        exit(4)
-    print('Reading binary files from disk… ', end='')
-    binary = getFileBytes(files[0])
-    print('… ', end='')
-    patch  = getFileBytes(files[1])
-    print('done.')
-    modif  = applyPatch(binary, patch)
-    print('Writing modified binary to file… ', end='')
-    open(files[0], 'wb').write(modif)
-    print('done.')
+    if opts == []:
+        opts = ['-h']
+    if '-h' in opts or '--help' in opts:
+        print('')
+        print('Usage:')
+        print('  $ ipsx.py -c <ORIGINAL> <MODIFIED> <PATCH>')
+        print('    Creates an IPSX patch from ORIGINAL and MODIFIED, saved to PATCH.')
+        print('  $ ipsx.py -a <FILE> <PATCH>')
+        print('    Applies IPSX patch file PATCH to FILE.')
+        print('  $ ipsx.py -i <PATCH>')
+        print('    Prints metainformation about IPSX patch file PATCH.')
+        print('  $ ipsx.py -h')
+        print('    Prints this message.')
+        print('  $ ipsx.py -u ...')
+        print('    Forces patch creation to work without RLE compression. Only useful')
+        print('    in tandem with the -c flag; patches have a sentinel for RLE.')
+        print('')
+        exit(0)
+    mode = None
+    rle  = True
+    for opt in opts:
+        if opt == '-c':
+            if mode != None:
+                Error(Msg.ModeAlreadySet)
+                exit(1)
+            mode = 'create'
+        elif opt == '-a':
+            if mode != None:
+                Error(Msg.ModeAlreadySet)
+                exit(1)
+            mode = 'apply'
+        elif opt == '-i':
+            if mode != None:
+                Error(Msg.ModeAlreadySet)
+                exit(1)
+            mode = 'info'
+        elif opt == '-u':
+            rle = False
+        elif opt == '-uc' or opt == '-cu':
+            if mode != None:
+                Error(Msg.ModeAlreadySet)
+                exit(1)
+            mode = 'create'
+            rle = False
+        else:
+            Error(Msg.UnknownOpt)
+            exit(2)
+    if mode == None:
+        Error(Msg.ModeNotSet)
+        exit(3)
+    filect = len(files)
+    if mode == 'create':
+        print('Creation of a patch requested.')
+        if filect != 3:
+            Error(Msg.BadArgCount)
+            exit(4)
+        print('Reading binary files from disk… ')
+        orig = getFileBytes(files[0])
+        print('… ')
+        modi = getFileBytes(files[1])
+        print('done.')
+        ptch = createPatch(orig, modi, rle)
+        print('Writing patch data to file… ')
+        open(files[2], 'wb').write(ptch)
+        print('done.')
+    elif mode == 'apply':
+        print('Application of a patch requested.')
+        if filect != 2:
+            Error(Msg.BadArgCount)
+            exit(4)
+        print('Reading binary files from disk… ')
+        binary = getFileBytes(files[0])
+        print('… ')
+        patch  = getFileBytes(files[1])
+        print('done.')
+        modif  = applyPatch(binary, patch)
+        print('Writing modified binary to file… ')
+        open(files[0], 'wb').write(modif)
+        print('done.')
+
+if __name__ == '__main__':
+    main()
