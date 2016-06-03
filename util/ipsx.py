@@ -10,11 +10,11 @@
 ##   ###    ###   ###      ###    ###    ###    ###      ###    ###    ###   ##
 ##   ########## #######    ###    ###     ### #######    ###    ##########   ##
 ##                                                                           ##
-##                       HACK: Pokémon Citrite Version                       ##
-##                           OFFICIAL  Source Code                           ##
+##                          Pokémon Citrite Version                          ##
+##                              OFFICIAL Source                              ##
 ##                                                                           ##
 ##                  Copyright © 2014-2016 Alexander Nicholi                  ##
-##                           All rights  reserved.                           ##
+##                            All rights reserved                            ##
 ##                                                                           ##
 ###############################################################################
 from sys import argv, exit
