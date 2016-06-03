@@ -109,5 +109,5 @@ def main():
     pokebuf += [0xFF]
     open(argv[2], 'wb').write(bytes(pokebuf))
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     main()
