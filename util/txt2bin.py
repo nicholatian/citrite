@@ -26,8 +26,11 @@ def run(command):
     except subprocess.CalledProcessError as e:
         print(e.output.decode(), file=stderr)
         exit(1)
-table = { ' ': 0x00, '\\e': 0x1B, 'é': 0x1B, '[d]': 0x2A, '&': 0x2D, '+': 0x2E,
-    '[Lv]': 0x34, '=': 0x35, ';': 0x36, '[PK]': 0x53, '[MN]': 0x54,
+def getPokechar(char):
+    return table[char]
+def main():
+    table = { ' ': 0x00, '\\e': 0x1B, 'é': 0x1B, '[d]': 0x2A, '&': 0x2D,
+    '+': 0x2E, '[Lv]': 0x34, '=': 0x35, ';': 0x36, '[PK]': 0x53, '[MN]': 0x54,
     '[PO]': 0x55, '[KE]': 0x56, '[BL]': 0x56, '[OC]': 0x57, '[K]': 0x58,
     '%': 0x5B, '(': 0x5C, ')': 0x5D, '[U]': 0x79, '[D]': 0x7A, '[L]': 0x7B,
     '[R]': 0x7C, '0': 0xA1, '1': 0xA2, '2': 0xA3, '3': 0xA4, '4': 0xA5,
@@ -46,27 +49,23 @@ table = { ' ': 0x00, '\\e': 0x1B, 'é': 0x1B, '[d]': 0x2A, '&': 0x2D, '+': 0x2E,
     'v': 0xEA, 'w': 0xEB, 'x': 0xEC, 'y': 0xED, 'z': 0xEE, ':': 0xF0,
     '\\l': 0xFA, '\\p': 0xFB, '\\c': 0xFC, '\\v': 0xFD, '\\n': 0xFE,
     '\\0': 0xFF, '\\x': 0xFF }
-def getPokechar(char):
-    return table[char]
-i = 1
-files = []
-if len(argv) == 1:
-    raise Exception('No input files provided')
-elif argv[1] == '-h' or argv[1] == '--help':
-    print('Usage:')
-    print('    ')
-    print('  $ poketext.py <input> [...]')
-    print('    Takes input files and prints out their GNU ASM equivalents.')
-    print('  $ poketext.py -h')
-    print('    Prints this message and exits.')
-    print('')
-    exit(0)
-while(i < len(argv)):
-    files += [argv[i]]
-    i += 1
-newstring = '\n'
-for infile in files:
-    ourstring  = open(infile, 'r').read()
+    i = 2
+    if '-h' in argv or '--help' in argv:
+        print('Usage:')
+        print('    ')
+        print('  $ poketext.py <input> <output>')
+        print('    Takes input files and prints out their GNU ASM equivalents.')
+        print('  $ poketext.py -h')
+        print('    Prints this message and exits.')
+        print('')
+        exit(0)
+    elif len(argv) == 1:
+        raise Exception('No input file provided')
+    elif len(argv) == 2:
+        raise Exception('No output file provided')
+    elif len(argv) > 3:
+        raise Exception('Too many files provided')
+    ourstring  = open(argv[1], 'r').read()
     inbrace    = False
     ctrlchar   = False
     hexcount   = 0
@@ -115,22 +114,6 @@ for infile in files:
         else:
             thischar = getPokechar(char)
             pokebuf += [thischar]
+    # Add string terminator
     pokebuf += [0xFF]
-    # format the byte array as GNU assembly
-    symname = run(['env', 'python3', 'util/namemod.py', '-a', infile])[:-1]
-    newstring += '.align 4, 0xFF\n\n'
-    newstring += '.globl ' + symname + '\n'
-    newstring += symname + ':\n    .byte '
-    linecounter = 0
-    for byte in pokebuf:
-        strbyte = hex(byte).upper().replace('X', 'x')
-        if byte < 0x10:
-            strbyte = strbyte.replace('0x', '0x0')
-        if linecounter == 11:
-            newstring += '\n    .byte ' + strbyte + ', '
-            linecounter = 1
-        else:
-            newstring += strbyte + ', '
-            linecounter += 1
-    newstring = newstring.replace(', \n', '\n')[:-2] + '\n\n'
-print(newstring[:-2])
+    open(argv[2], 'wb').write(bytes(pokebuf))
