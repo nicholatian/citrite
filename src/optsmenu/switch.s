@@ -36,17 +36,17 @@ optsmenu_switch:
     PUSH    {R7}
     SUB     SP, SP, #0xC
     LDR     R1, =super
-    MOVS    R2, #0x438
-    ADDS    R0, R1, R2
+    MOV     R2, #0x438
+    ADD     R0, R1, R2
     LDRB    R0, [R0]
-    MOVS    R2, R1
+    MOV     R2, R1
     CMP     R0, #0xB
     BHI     .Lcase0
     
     @ Jump table switch
-    LSLS    R0, R0, #2
+    LSL     R0, R0, #2
     LDR     R1, =.Ljpt
-    ADDS    R0, R0, R1
+    ADD     R0, R0, R1
     LDR     R0, [R0]
     MOV     PC, R0
 
@@ -59,18 +59,18 @@ optsmenu_switch:
 
 .Ljpt:
     
-    .long .Lcase0                       @ jumptable case 0
-    .long .Lcase1                       @ jumptable case 1
-    .long .Lcase2                       @ jumptable case 2
-    .long .Lload_rbox_tiles             @ jumptable case 3
-    .long .Lcase4                       @ jumptable case 4
-    .long .Lcase5                       @ jumptable case 5
-    .long .Lcase6                       @ jumptable case 6
-    .long .Lcase7                       @ jumptable case 7
-    .long .Lcase8                       @ jumptable case 8
-    .long .Lcase9                       @ jumptable case 9
-    .long .Lcase10                      @ jumptable case 10
-    .long .Lcleanup                     @ jumptable case 11
+    .word .Lcase0                       @ jumptable case 0
+    .word .Lcase1                       @ jumptable case 1
+    .word .Lcase2                       @ jumptable case 2
+    .word .Lload_rbox_tiles             @ jumptable case 3
+    .word .Lcase4                       @ jumptable case 4
+    .word .Lcase5                       @ jumptable case 5
+    .word .Lcase6                       @ jumptable case 6
+    .word .Lcase7                       @ jumptable case 7
+    .word .Lcase8                       @ jumptable case 8
+    .word .Lcase9                       @ jumptable case 9
+    .word .Lcase10                      @ jumptable case 10
+    .word .Lcleanup                     @ jumptable case 11
 
 @ -----------------------------------------------------------------------------
 
@@ -80,13 +80,13 @@ optsmenu_switch:
 
 .Lcase0:
     
-    MOVS    R0, #0
+    MOV     R0, #0
     LDR     R8, =vblank_handler_set
     BL      .Llinker
     
     LDR     R1, =super
-    MOVS    R0, #0x438
-    ADDS    R1, R1, R0
+    MOV     R0, #0x438
+    ADD     R1, R1, R0
     B       .Lincr_counter
 
 @ -----------------------------------------------------------------------------
@@ -104,16 +104,21 @@ optsmenu_switch:
 
 .Lcase1:
     
-    MOVS    R3, #0x6000000
-    MOVS    R4, #0x18000
+    MOV     R3, #0x6    @ ~LDR R3, =0x6000000
+    LSL     R3, R3, #24 @
+    MOV     R4, #0x18   @ ~LDR R4, =0x18000
+    LSL     R4, R4, #12 @
     ADD     R1, SP, #8
     MOV     R8, R1
     ADD     R2, SP, #4
-    MOVS    R6, #0
+    MOV     R6, #0
     LDR     R1, =io_dma3sad
-    MOVS    R5, #0x1000
-    LDR     R7, =0x81000800
-    MOVS    R0, #0x81000000
+    MOV     R5, #0x1000
+    MOV     R0, #0x81   @ ~LDR R0, =0x81000000
+    LSL     R0, R0, #24 @
+    MOV     R7, #0x80  @ ~LDR R7, =0x800
+    LSL     R7, R7, #4 @
+    ADD     R7, R7, R0
     MOV     R12, R0
 
 .Lcase1_loop:
@@ -124,8 +129,8 @@ optsmenu_switch:
     STR     R3, [R1,#4]
     STR     R7, [R1,#8]
     LDR     R0, [R1,#8]
-    ADDS    R3, R3, R5
-    SUBS    R4, R4, R5
+    ADD     R3, R3, R5
+    SUB     R4, R4, R5
     CMP     R4, R5
     BHI     .Lcase1_loop
     
@@ -133,94 +138,99 @@ optsmenu_switch:
     ADD     R2, SP, #4
     STR     R2, [R1]
     STR     R3, [R1,#4]
-    LSRS    R0, R4, #1
+    LSR     R0, R4, #1
     MOV     R2, R12
-    ORRS    R0, R2
+    ORR     R0, R2
     STR     R0, [R1,#8]
     LDR     R0, [R1,#8]
-    MOVS    R0, #0x7000000
-    MOVS    R3, #0x400
-    MOVS    R4, #0
+    MOV     R0, #0x7    @ ~LDR R0, =0x7000000
+    LSL     R0, R0, #24 @
+    MOV     R3, #0x4   @ ~LDR R3, =0x400
+    LSL     R3, R3, #8 @
+    MOV     R4, #0
     STR     R4, [SP,#8]
     LDR     R2, =io_dma3sad
     MOV     R1, R8
     STR     R1, [R2]
     STR     R0, [R2,#4]
-    LSRS    R0, R3, #2
-    MOVS    R1, #0x85000000
-    ORRS    R0, R1
+    LSR     R0, R3, #2
+    MOV     R1, #0x85   @ ~LDR R1, =0x85000000
+    LSL     R1, R1, #24 @
+    ORR     R0, R1
     STR     R0, [R2,#8]
     LDR     R0, [R2,#8]
-    MOVS    R1, #0x5000000
+    MOV     R1, #0x5    @ ~LDR R1, =0x5000000
+    LSL     R1, R1, #24 @
     ADD     R0, SP, #4
     STRH    R4, [R0]
     STR     R0, [R2]
     STR     R1, [R2,#4]
-    LSRS    R3, R3, #1
-    MOVS    R0, #0x81000000
-    ORRS    R3, R0
+    LSR     R3, R3, #1
+    MOV     R0, #0x81   @ ~LDR R0, =0x81000000
+    LSL     R0, R0, #24 @
+    ORR     R3, R0
     STR     R3, [R2,#8]
     LDR     R0, [R2,#8]
-    MOVS    R0, #0                      @ ioreg
-    MOVS    R1, #0                      @ value
+    MOV     R0, #0                      @ ioreg
+    MOV     R1, #0                      @ value
     LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0
+    MOV     R0, #0
     LDR     R8, =sub_080017BC
     BL      .Llinker
     
     LDR     R1, =0x855C698
-    MOVS    R0, #0
-    MOVS    R2, #2
+    MOV     R0, #0
+    MOV     R2, #2
     LDR     R8, =bg_vram_setup
     BL      .Llinker
     
-    MOVS    R0, #0
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #0
+    MOV     R1, #0
+    MOV     R2, #0
     LDR     R8, =bgid_mod_x_offset
     BL      .Llinker
     
-    MOVS    R0, #1
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #1
+    MOV     R1, #0
+    MOV     R2, #0
     @LDR     R8, =bgid_mod_x_offset
     BL      .Llinker
     
-    MOVS    R0, #2
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #2
+    MOV     R1, #0
+    MOV     R2, #0
     @LDR     R8, =bgid_mod_x_offset
     BL      .Llinker
     
-    MOVS    R0, #3
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #3
+    MOV     R1, #0
+    MOV     R2, #0
     @LDR     R8, =bgid_mod_x_offset
     BL      .Llinker
     
-    MOVS    R0, #0
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #0
+    MOV     R1, #0
+    MOV     R2, #0
     LDR     R8, =bgid_mod_y_offset
     BL      .Llinker
     
-    MOVS    R0, #1
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #1
+    MOV     R1, #0
+    MOV     R2, #0
     @LDR     R8, =bgid_mod_y_offset
     BL      .Llinker
     
-    MOVS    R0, #2
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #2
+    MOV     R1, #0
+    MOV     R2, #0
     @LDR     R8, =bgid_mod_y_offset
     BL      .Llinker
     
-    MOVS    R0, #3
-    MOVS    R1, #0
-    MOVS    R2, #0
+    MOV     R0, #3
+    MOV     R1, #0
+    MOV     R2, #0
     @LDR     R8, =bgid_mod_y_offset
     BL      .Llinker
     
@@ -231,51 +241,51 @@ optsmenu_switch:
     LDR     R8, =sub_080045B0
     BL      .Llinker
     
-    MOVS    R0, #0x40 @ '@'             @ ioreg
-    MOVS    R1, #0                      @ value
+    MOV     R0, #0x40 @ '@'             @ ioreg
+    MOV     R1, #0                      @ value
     LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0x44 @ 'D'             @ ioreg
-    MOVS    R1, #0                      @ value
+    MOV     R0, #0x44 @ 'D'             @ ioreg
+    MOV     R1, #0                      @ value
     @LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0x48 @ 'H'             @ ioreg
-    MOVS    R1, #1                      @ value
+    MOV     R0, #0x48 @ 'H'             @ ioreg
+    MOV     R1, #1                      @ value
     @LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0x4A @ 'J'             @ ioreg
-    MOVS    R1, #0x23 @ '#'             @ value
+    MOV     R0, #0x4A @ 'J'             @ ioreg
+    MOV     R1, #0x23 @ '#'             @ value
     @LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0x50 @ 'P'             @ ioreg
-    MOVS    R1, #0xC1 @ '-'             @ value
+    MOV     R0, #0x50 @ 'P'             @ ioreg
+    MOV     R1, #0xC1 @ '-'             @ value
     @LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0x52 @ 'R'             @ ioreg
-    MOVS    R1, #0                      @ value
+    MOV     R0, #0x52 @ 'R'             @ ioreg
+    MOV     R1, #0                      @ value
     @LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0x54 @ 'T'             @ ioreg
-    MOVS    R1, #4                      @ value
+    MOV     R0, #0x54 @ 'T'             @ ioreg
+    MOV     R1, #4                      @ value
     @LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R1, #0x3040                 @ value
-    MOVS    R0, #0                      @ ioreg
+    MOV     R1, #0x3040                 @ value
+    MOV     R0, #0                      @ ioreg
     @LDR     R8, =lcd_io_set
     BL      .Llinker
     
-    MOVS    R0, #0
+    MOV     R0, #0
     LDR     R8, =gpu_sync_bg_show
     BL      .Llinker
     
-    MOVS    R0, #1
+    MOV     R0, #1
     @LDR     R8, =gpu_sync_bg_show
     BL      .Llinker
     
@@ -309,8 +319,9 @@ optsmenu_switch:
     BL      .Llinker
     
     LDR     R1, =super
-    MOVS    R0, #0x438
-    ADDS    R1, R1, R0
+    MOV     R0, #0x87  @ ~LDR =0x438
+    LSL     R0, R0, #3 @
+    ADD     R1, R1, R0
     B       .Lincr_counter
 
 @ -----------------------------------------------------------------------------
@@ -336,8 +347,10 @@ optsmenu_switch:
     BL      .Llinker
     
     LDR     R1, [R0]
-    MOVS    R2, #0x120
-    MOVS    R3, #0x1A2
+    MOVS    R2, #0x12  @ ~LDR R2, =0x120
+    LSL     R2, R2, #4 @
+    MOVS    R3, #0xD1  @ ~LDR R3, =0x1A2
+    LSL     R3, R3, #1 @
     MOVS    R0, #1                      @ DING DING DING
     LDR     R8, =gpu_copy_to_tileset
     BL      .Llinker
@@ -366,12 +379,12 @@ optsmenu_switch:
     BL      .Llinker
     
     LDR     R0, [R0,#4]
-    MOVS    R1, #0x70 @ 'p'
-    MOVS    R2, #0x20 @ ' '
+    MOVS    R1, #0x70
+    MOVS    R2, #0x20
     @LDR     R8, =gpu_pal_apply
     BL      .Llinker
     
-    LDR     R0, =dword_03005D90
+    LDR     R0, =0x3005D90
     LDR     R0, [R0]
     LDRB    R0, [R0,#0x14]
     LSRS    R0, R0, #3
@@ -379,7 +392,8 @@ optsmenu_switch:
     BL      .Llinker
     
     LDR     R1, =super
-    MOVS    R0, #0x438
+    MOV     R0, #0x87  @ ~LDR =0x438
+    LSL     R0, R0, #3 @
     ADDS    R1, R1, R0
     B       .Lincr_counter
 
@@ -400,7 +414,7 @@ optsmenu_switch:
     
     LDR     R0, =optsmenu_special_text_pal
     MOVS    R1, #0x10
-    MOVS    R2, #0x20 @ ' '
+    MOVS    R2, #0x20
     LDR     R8, =gpu_pal_apply
     BL      .Llinker
     
@@ -429,7 +443,8 @@ optsmenu_switch:
     BL      .Llinker
     
     LDR     R1, =super
-    MOVS    R0, #0x438
+    MOV     R0, #0x87  @ ~LDR =0x438
+    LSL     R0, R0, #3 @
     ADDS    R1, R1, R0
     B       .Lincr_counter
 
@@ -464,7 +479,8 @@ optsmenu_switch:
     BL      .Llinker
     
     LDR     R1, =super
-    MOVS    R2, #0x438
+    MOV     R0, #0x87  @ ~LDR =0x438
+    LSL     R0, R0, #3 @
     ADDS    R1, R1, R2
     LDRB    R0, [R1]
     ADDS    R0, #1
@@ -476,7 +492,8 @@ optsmenu_switch:
     BL      .Llinker
     
     LDR     R1, =super
-    MOVS    R0, #0x438
+    MOV     R0, #0x87  @ ~LDR =0x438
+    LSL     R0, R0, #3 @
     ADDS    R1, R1, R0
     B       .Lincr_counter
 
@@ -495,7 +512,7 @@ optsmenu_switch:
 
 .Lcase10:
     
-    LDR     R0, =(sub_080BA83C+1)
+    LDR     R0, =sub_080BA83C
     MOVS    R1, #0
     LDR     R8, =task_add
     BL      .Llinker
@@ -566,7 +583,8 @@ optsmenu_switch:
 .Lincr_supertracker:
     
     LDR     R1, =super
-    MOVS    R2, #0x438
+    MOV     R0, #0x87  @ ~LDR =0x438
+    LSL     R0, R0, #3 @
     ADDS    R1, R1, R2
 
 .Lincr_counter:
@@ -606,6 +624,7 @@ optsmenu_switch:
     
     LDR     R0, =optsmenu_load_callback
     LDR     R8, =set_callback2
+    BL      .Llinker
 
 .Lreturn:
     
