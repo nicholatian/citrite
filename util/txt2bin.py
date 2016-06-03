@@ -19,15 +19,6 @@
 ###############################################################################
 from sys import argv, exit
 from os import path
-def run(command):
-    import subprocess
-    try:
-        return subprocess.check_output(command).decode()
-    except subprocess.CalledProcessError as e:
-        print(e.output.decode(), file=stderr)
-        exit(1)
-def getPokechar(char):
-    return table[char]
 def main():
     table = { ' ': 0x00, '\\e': 0x1B, 'é': 0x1B, '[d]': 0x2A, '&': 0x2D,
     '+': 0x2E, '[Lv]': 0x34, '=': 0x35, ';': 0x36, '[PK]': 0x53, '[MN]': 0x54,
@@ -95,7 +86,7 @@ def main():
                 raise Exception('Lone closing brace found')
             bracebuf += char
             inbrace = False
-            thischar = getPokechar(bracebuf)
+            thischar = table[bracebuf]
             bracebuf = ''
             pokebuf += [thischar]
         elif char == '\\':
@@ -108,11 +99,11 @@ def main():
             if char == 'h':
                 hexcount = 1
             else:
-                thischar = getPokechar('\\' + char)
+                thischar = table['\\' + char]
                 pokebuf += [thischar]
                 ctrlchar = False
         else:
-            thischar = getPokechar(char)
+            thischar = table[char]
             pokebuf += [thischar]
     # Add string terminator
     pokebuf += [0xFF]
