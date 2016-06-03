@@ -108,3 +108,6 @@ def main():
     # Add string terminator
     pokebuf += [0xFF]
     open(argv[2], 'wb').write(bytes(pokebuf))
+
+if __name__ = '__main__':
+    main()
