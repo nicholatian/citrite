@@ -16,15 +16,7 @@
  *                                                                           * 
 \*****************************************************************************/
 
-/* RAM */
-
-io_dma3sad           = 0x40000D4;
-tasks                = 0x3005E00;
-super                = 0x30022C0;
-textflags            = 0x3003014;
-last_used_item_maybe = 0x203CE7C;
-
-/* ROM */
+/* Engine functions */
 
 setvar                                         = 0x809D6B0|1;
 random_                                        = 0x806F620|1;
@@ -97,12 +89,31 @@ sub_080AA780                                   = 0x80AA780|1;
 sub_0816F2A8                                   = 0x816F2A8|1;
 sub_080AAB2C                                   = 0x80AAB2C|1;
 sub_080BA384                                   = 0x80BA384|1;
+bgid_mod_x_offset                              = 0x8001D04|1;
+bgid_mod_y_offset                              = 0x8001E7C|1;
+load_rbox_tiles_addr                           = 0x8098758|1;
+gpu_copy_to_tileset                            = 0x8001944|1;
+put_text_on_tilemap_maybe                      = 0x80BAB68|1;
+sub_081DB368                                   = 0x81DB368|1;
+font_get_width_of_string                       = 0x8005ED8|1;
+optsmenu_tilemap_load_sth2                     = 0x80BB0D0|1;
+optsmenu_tilemap_load_sth                      = 0x80BB104|1;
+optsmenu_tilemap_sth                           = 0x80BB154|1;
+optsmenu_load_highlight_overlay                = 0x80BAB38|1;
+rboxid_to_vram                                 = 0x8003658|1;
+load_rbox_tiles_addr                           = 0x8098758|1;
+optsmenu_change_item_addtask                   = 0x80BA83C|1;
+optsmenu_loadtext_textspeed                    = 0x80BAC38|1;
+optsmenu_loadtext_battlescene                  = 0x80BAD08|1;
+optsmenu_loadtext_battlestyle                  = 0x80BAD84|1;
+optsmenu_loadtext_sound                        = 0x80BAE08|1;
+optsmenu_loadtext_buttons                      = 0x80BB028|1;
+optsmenu_loadtext_menustyle                    = 0x80BAF0C|1;
 
 /* BIOS Functions */
 
 LZ77UnCompVram   = 0x82E708C|1;
 LZ77UnCompWram   = 0x82E7078|1;
-modulus          = 0x82E7BE0|1;
 memcpy           = 0x82E93D4|1;
 memset           = 0x82E9434|1;
 CpuSet           = 0x82E7084|1;
@@ -115,3 +126,5 @@ ObjAffineSet     = 0x82E709C|1;
 RegisterRamReset = 0x82E70A8|1;
 Sqrt             = 0x82E70C4|1;
 VBlankIntrWait   = 0x82E70C8|1;
+__udivsi3        = 0x82E7B68|1;
+__umodsi3        = 0x82E7BE0|1;

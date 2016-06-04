@@ -71,3 +71,8 @@
 
 0x16CD8E = hword: bootscreen_temphook1
 0x16CD90 = hword: bootscreen_temphook3
+
+# options menu hooks
+
+0x30474 = word: optsmenu_switch|1
+0x9FD58 = word: optsmenu_switch|1
