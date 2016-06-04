@@ -36,41 +36,40 @@
 citgpu_show_bg:
     
     PUSH    {LR}
-    PUSH    {R4,R5,R8-R11}
+    PUSH    {R4-R7}
     
     @ return immediately if any arguments are out of bounds
     CMP     R0, #3
-    BGT     .Lreturn
+    BHI     .Lreturn
     
     CMP     R1, #3
-    BGT     .Lreturn
+    BHI     .Lreturn
     
     CMP     R2, #0x1F
-    BGT     .Lreturn
+    BHI     .Lreturn
     
     CMP     R3, #1
-    BGT     .Lreturn
+    BHI     .Lreturn
     
     @ save our arguments for later
-    MOV     R8, R0
-    MOV     R9, R1
-    MOV     R10, R2
-    MOV     R11, R3
+    MOV     R6, R1
+    MOV     R7, R2
+    PUSH    {R3}
     
     @ piece together BG?CNT
     @ note that the BGID is already ready to go
     LDR     R1, =citgpu_get_priority
     BL      .Llinker
     
-    MOV     R1, R9
+    MOV     R1, R6
     LSL     R1, R1, #2
     ORR     R0, R0, R1
-    MOV     R1, R10
+    MOV     R1, R7
     LSL     R1, R1, #8
     ORR     R0, R0, R1
-    MOV     R1, R11
-    LSL     R1, R1, #7
-    ORR     R4, R0, R1
+    MOV     R4, SP
+    LSL     R4, R4, #7
+    ORR     R4, R0, R4
     
     @ Get the appropriate I/O register
     MOV     R1, #0x4    @ ~LDR R3, #0x4000000
@@ -83,7 +82,7 @@ citgpu_show_bg:
 
 .Lreturn:
     
-    POP     {R4-R5,R8-R11}
+    POP     {R4-R7}
     POP     {R0}
     BX      R0
 
@@ -103,3 +102,7 @@ citgpu_show_bg:
 .Llinker:
     
     BX      R1
+
+@ End of function citgpu_show_bg
+
+@ -----------------------------------------------------------------------------
