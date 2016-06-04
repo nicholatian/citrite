@@ -1,0 +1,10 @@
+#!/usr/bin/env python3 pal2bin.py
+
+0,8-15 = $0000
+1      = $7FFF
+2      = $2ADF
+3      = $018F
+4      = $423F
+5      = $0CDF
+6      = $2529
+7      = $645A
