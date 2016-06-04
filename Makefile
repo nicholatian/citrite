@@ -37,14 +37,13 @@ GFX  := grit
 PY   := env python3
 
 # Local utilities
-TXT2ASM := $(PY) util/poketext.py
-BIN2ASM := $(PY) util/binary.py
-IMG2ASM := $(PY) util/images.py
+TXT2BIN := $(PY) util/txt2bin.py
+PAL2BIN := $(PY) util/pal2bin.py
+BIN2ASM := $(PY) util/bin2asm.py
 NAMEMOD := $(PY) util/namemod.py
+VERSION := $(PY) util/version.py
 INSERT  := $(PY) util/insert.py
 PATCHER := $(PY) util/ipsx.py
-VERSION := $(PY) util/version.py
-UNDEFS  := $(PY) util/undefs.py
 UUIDGEN := cat /proc/sys/kernel/random/uuid
 
 ASFLAGS  := -acd -mcpu=arm7tdmi -march=armv4t -mthumb -mthumb-interwork -I \
@@ -96,15 +95,16 @@ IMAGES8BUNC := $(shell find data/image/ -type f -name '*.8bpp.b.png')
 IMAGES8BLZ  := $(shell find data/image/ -type f -name '*.8bpp.lz.b.png')
 
 POKETEXTS := $(shell find data/text/ -type f -name '*.snip')
-MAPFILES  := 
+MAPFILES  := $(shell find data/map/ -type f -name '*.amap')
+PALETTES  := $(shell find data/image/ -type f -name '*.npal')
 BINARIES  := $(shell find data/other/ -type f -name '*.bin')
 
 .PHONY: rom all src images imagesb imagest images4b images4blz images8b \
-	images8blz images4t images4tlz images8t images8tlz poketext maps rawbins \
+	images8blz images4t images4tlz images8t images8tlz poketext palettes maps \
 	assemble link copybin insert patch deploymajor deployminor deploypatch \
 	_incrmajor _incrminor _incrpatch _deploy instance clean
 
-rom: src images poketexts maps rawbins assemble link copybin insert
+rom: src images poketexts palettes maps assemble link copybin insert
 
 all: rom patch
 
@@ -128,15 +128,15 @@ images4b:
 	@for CURIMG in $(IMAGES4B) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -gb -gz! -mz! -gB4 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
 	done
 
 images4blz:
@@ -144,15 +144,15 @@ images4blz:
 	@for CURIMG in $(IMAGES4BLZ) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -gb -gzl -mzl -gB4 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
 	done
 
 images8b:
@@ -160,15 +160,15 @@ images8b:
 	@for CURIMG in $(IMAGES8B) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -gb -gz! -mz! -gB8 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
 	done
 
 images8blz:
@@ -176,15 +176,15 @@ images8blz:
 	@for CURIMG in $(IMAGES8BLZ) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -gb -gzl -mzl -gB8 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_pal.bin ; \
 	done
 
 images4tn:
@@ -192,18 +192,18 @@ images4tn:
 	@for CURIMG in $(IMAGES4TN) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mR! -gz! -mz! \
 		-gB4 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -212,18 +212,18 @@ images4tnlz:
 	@for CURIMG in $(IMAGES4TNLZ) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mR! -gzl -mzl \
 		-gB4 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -232,18 +232,18 @@ images8tn:
 	@for CURIMG in $(IMAGES8TN) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mR! -gz! -mz! \
 		-gB8 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -252,18 +252,18 @@ images8tnlz:
 	@for CURIMG in $(IMAGES8TNLZ) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mR! -gzl -mzl \
 		-gB8 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -272,18 +272,18 @@ images4t:
 	@for CURIMG in $(IMAGES4T) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mRtf -gz! -mz! \
 		-gB4 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -292,19 +292,18 @@ images4tlz:
 	@for CURIMG in $(IMAGES4TLZ) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mRtf -gzl -mzl \
 		-gB4 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		cp bin/temp.asm bin/temp2.asm ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -313,18 +312,18 @@ images8t:
 	@for CURIMG in $(IMAGES8T) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mRtf -gz! -mz! \
 		-gB8 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -333,18 +332,18 @@ images8tlz:
 	@for CURIMG in $(IMAGES8TLZ) ; do \
 		BNAME=`$(NAMEMOD) -l $$CURIMG` ; \
 		ANAME=`$(NAMEMOD) -a $$CURIMG` ; \
-		echo ".file \"$$CURIMG\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$CURIMG\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(GFX) $$CURIMG $(GFXFLAGS) -obin/$$BNAME.x.bin -mRtf -gzl -mzl \
 		-gB8 ; \
 		mv bin/$$BNAME.img.bin bin/$${ANAME}_img.bin ; \
 		mv bin/$$BNAME.map.bin bin/$${ANAME}_map.bin ; \
 		mv bin/$$BNAME.pal.bin bin/$${ANAME}_pal.bin ; \
-		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.asm ; \
-		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/image/$$BNAME.o ; \
-		rm bin/temp.asm bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
+		$(BIN2ASM) bin/$${ANAME}_img.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_map.bin >> bin/temp.s ; \
+		$(BIN2ASM) bin/$${ANAME}_pal.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/temp.s bin/$${ANAME}_img.bin bin/$${ANAME}_map.bin \
 		bin/$${ANAME}_pal.bin ; \
 	done
 
@@ -352,34 +351,36 @@ poketexts:
 	@mkdir -p bin/data/text
 	@for SNIPPET in $(POKETEXTS) ; do \
 		BNAME=`$(NAMEMOD) -l $$SNIPPET` ; \
-		echo ".file \"$$SNIPPET\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
-		$(TXT2ASM) $$SNIPPET >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/text/$$BNAME.o ; \
-		rm bin/temp.asm ; \
+		echo ".file \"$$SNIPPET\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
+		$(TXT2BIN) $$SNIPPET bin/$$BNAME.bin ; \
+		$(BIN2ASM) bin/$$BNAME.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/text/$$BNAME.o ; \
+		rm bin/$$BNAME.bin bin/temp.s ; \
+	done
+
+palettes:
+	@mkdir -p bin/data/image
+	@for PALETTE in $(PALETTES) ; do \
+		BNAME=`$(NAMEMOD) -l $$PALETTE` ; \
+		echo ".file \"$$PALETTE\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
+		$(PAL2BIN) $$PALETTE bin/$$BNAME.bin ; \
+		$(BIN2ASM) bin/$$BNAME.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/image/$$BNAME.o ; \
+		rm bin/$$BNAME.bin bin/temp.s ; \
 	done
 
 maps:
 	@mkdir -p bin/data/map
 	@for MAPFILE in $(MAPFILES) ; do \
 		BNAME=`$(NAMEMOD) -l $$MAPFILE` ; \
-		echo ".file \"$$MAPFILE\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
+		echo ".file \"$$MAPFILE\"" > bin/temp.s ; \
+		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.s ; \
 		$(MAP2BIN) $$MAPFILE bin/$$BNAME.bin ; \
-		$(BIN2ASM) bin/$$BNAME.bin >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/text/$$BNAME.o ; \
-		rm bin/temp.asm bin/$$BNAME.bin ; \
-	done
-
-rawbins:
-	@mkdir -p bin/data/other
-	@for BINARY in $(BINARIES) ; do \
-		BNAME=`$(NAMEMOD) -l $$BINARY` ; \
-		echo ".file \"$$BINARY\"" > bin/temp.asm ; \
-		echo '.ident "AS: (devkitARM release 45) 2.25.1"' >> bin/temp.asm ; \
-		$(BIN2ASM) $$BINARY >> bin/temp.asm ; \
-		$(AS) $(ASFLAGS) bin/temp.asm -o bin/data/text/$$BNAME.o ; \
-		rm bin/temp.asm ; \
+		$(BIN2ASM) bin/$$BNAME.bin >> bin/temp.s ; \
+		$(AS) $(ASFLAGS) bin/temp.s -o bin/data/text/$$BNAME.o ; \
+		rm bin/temp.s bin/$$BNAME.bin ; \
 	done
 
 assemble:
@@ -390,14 +391,14 @@ assemble:
 	done
 
 link:
-	@$(LD) $(LDFLAGS) -o bin/citrite.o `find bin/data -type f -name '*.o'` \
-	`find bin/code -type f -name '*.o'`
+	@$(LD) $(LDFLAGS) -o bin/citrite.elf `find bin/code -type f -name '*.o'` \
+	`find bin/data -type f -name '*.o'`
 
 copybin:
-	@$(OCPY) -O binary bin/citrite.o bin/citrite.bin
+	@$(OCPY) -O binary bin/citrite.elf bin/citrite.bin
 
 insert:
-	@$(INSERT) etc/hooks.list $(EMERALDROM) bin/citrite.bin bin/citrite.o \
+	@$(INSERT) etc/hooks.list $(EMERALDROM) bin/citrite.bin bin/citrite.elf \
 	bin/citrite.gba
 
 patch:
