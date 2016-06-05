@@ -58,8 +58,8 @@ You can, but whether it gets accepted into `master` is at my discretion. If I
 like what you’ve done but want some things changed, I’ll either tell you or
 do it myself depending on whether I’m preoccupied or not.
 
-_Note:_ It may be wise to open an issue and see how that goes over before
-taking the time to implement anything for the game.
+It may be wise to open an issue and see how that goes over before taking the
+time to implement anything for the game.
 
 __I have _X_ problem with your game. It’s a bug!__
 
