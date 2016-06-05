@@ -16,177 +16,302 @@
  *                                                                           * 
 \*****************************************************************************/
 
-#include "gf/bpee.h"
+#include <gba/segment.h>
+#include <gf/bpee.h>
+#include <gf/bpee/state.h>
+#include "citgpu/essential.h"
 
 void optsmenu_switch( void )
 {
-    u8  *state_tracker; // r1@3
-    u32  vram_offs; // r3@4
-    int dma3cnt_l_ref2; // r0@5
-    int dma3cnt_l_ref; // t1@6
-    int dma3cnt_l; // t1@6
-    int *rbox_tiles_addr2; // r0@8
-    int rbox_tiles_addr; // r0@9
-    int rbox_enable_ret0; // r0@11
-    int rbox_enable_ret1; // r0@13
-    int *task_ref; // r4@15
-    int other_state; // r2@15
-    int other_state_plus20_3bit; // r0@15
-    __int16 zero_ref; // [sp+4h] [bp-20h]@5
-    int zero_ref2; // [sp+8h] [bp-1Ch]@6
-    
-    if ( super.multi_purpose_state_tracker > 0xBu )
+    switch(super.multi_purpose_state_tracker)
     {
-set_vblanker:
-        
-incr_counter:
-        ++*state_tracker;
-    }
-    else
-    {
-        switch ( super.multi_purpose_state_tracker )
-        {
-            default:
-                case_0();
-            case 1:
-                case_1();
-            case 2:
-                boot_fade_sequence();
-                dma_task_delete_something();
-                tasks_init();
-                obj_and_aux_reset_all();
-                state_tracker = &super.multi_purpose_state_tracker;
-                goto incr_counter;
-            case 3:
-                rbox_tiles_addr2 = (int *)load_rbox_tiles_addr(*(_BYTE *)(dword_03005D90 + 20) >> 3);
-                gpu_copy_to_tileset(1u, *rbox_tiles_addr2, 288, 0x1A2u);
-                goto incr_supertracker;
-            case 4:
-                gpu_pal_apply((const char *)opts_main_menu_bg_pal, 0, 2);
-                rbox_tiles_addr = load_rbox_tiles_addr(*(_BYTE *)(dword_03005D90 + 20) >> 3);
-                gpu_pal_apply(*(const char **)(rbox_tiles_addr + 4), 112, 32);
-                state_tracker = &super.multi_purpose_state_tracker;
-                goto incr_counter;
-            case 5:
-                gpu_pal_apply((const char *)optsmenu_special_text_pal, 0x10, 0x20);
-                goto incr_supertracker;
-            case 6:
-                rbox_enable_ret0 = enable_rbox(0);
-                optsmenu_tilemap_load_sth2(rbox_enable_ret0);
-                state_tracker = &super.multi_purpose_state_tracker;
-                goto incr_counter;
-            case 7:
-                state_tracker = &super.multi_purpose_state_tracker;
-                goto incr_counter;
-            case 8:
-                rbox_enable_ret1 = enable_rbox(1u);
-                optsmenu_tilemap_load_sth(rbox_enable_ret1);
-                ++super.multi_purpose_state_tracker;
-                goto tilemap_load3;
-            case 9:
-tilemap_load3:
-                optsmenu_tilemap_sth();
-                state_tracker = &super.multi_purpose_state_tracker;
-                goto incr_counter;
-            case 10:
-                task_ref = &tasks[10 * (unsigned __int8)task_add((int)optsmenu_change_item_addtask, 0)];
-                *((_WORD *)task_ref + 4) = 0;
-                other_state = dword_03005D90;
-                other_state_plus20_3bit = *(_BYTE *)(dword_03005D90 + 20) & 7;
-                *((_WORD *)task_ref + 5) = other_state_plus20_3bit;
-                *((_WORD *)task_ref + 6) = (unsigned int)*(_BYTE *)(other_state + 21) << 29 >> 31;
-                *((_WORD *)task_ref + 7) = (unsigned int)*(_BYTE *)(other_state + 21) << 30 >> 31;
-                *((_WORD *)task_ref + 8) = *(_BYTE *)(other_state + 21) & 1;
-                *((_WORD *)task_ref + 9) = *(_BYTE *)(other_state + 19);
-                *((_WORD *)task_ref + 10) = (unsigned int)*(_BYTE *)(other_state + 20) >> 3;
-                optsmenu_loadtext_textspeed(other_state_plus20_3bit);
-                optsmenu_loadtext_battlescene(*((_BYTE *)task_ref + 12));
-                optsmenu_loadtext_battlestyle(*((_BYTE *)task_ref + 14));
-                optsmenu_loadtext_sound(*((_BYTE *)task_ref + 16));
-                optsmenu_loadtext_buttons(*((_BYTE *)task_ref + 18));
-                optsmenu_loadtext_menustyle(*((_BYTE *)task_ref + 20));
-                optsmenu_load_highlight_overlay(*((_BYTE *)task_ref + 8));
-                rboxid_to_vram(1u, 3u);
-incr_supertracker:
-                state_tracker = &super.multi_purpose_state_tracker;
-                goto incr_counter;
-            case 11:
-                fade_screen(0xFFFFFFFF, 0, 0x10u, 0, 0);
-                vblank_handler_set((uint32_t)optsmenu_load_vblanker);
-                set_callback2(optsmenu_load_callback);
-                break;
-        }
+    case 1u:
+        case_1( );
+        break;
+    case 2u:
+        case_2( );
+        break;
+    case 3u:
+        case_3( );
+        break;
+    case 4u:
+        case_4( );
+        break;
+    case 5u:
+        case_5( );
+        break;
+    case 6u:
+        case_6( );
+        break;
+    case 7u:
+        case_7( );
+        break;
+    case 8u:
+        case_8( );
+        break;
+    case 9u:
+        case_9( );
+        break;
+    case 10u:
+        case_10( );
+        break;
+    case 11u:
+        case_11( );
+        break;
+    default:
+        case_0( );
     }
 }
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 0
+ * DESCRIPTION: This method removes the V-Blank handler by setting its function
+ *              pointer to NULL.
+ */
 
 static inline void case_0( void )
 {
     /* This is referenced elsewhere, see set_vblanker label */
     vblank_handler_set(NULL);
+    
     super.multi_purpose_state_tracker += 1u;
 }
 
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 1
+ * DESCRIPTION: This method resets all video memory, and loads the needed
+ *              values into VRAM and the LCD I/O registers.
+ */
+
 static inline void case_1( void )
 {
-    void* vram_offs = 0x6000000u;
-    u32   zero      = 0u;
+    reset_vram_oam_pal( );
     
-    for(u32 i = 0u; i < 24u; i += 1u)
-    {
-        zero_ref = 0;
-        io_dma3sad    = &zero_ref;
-        io_dma3dad    = vram_offs;
-        io_dma3cnt_l  = 0x800u;
-        io_dma3cnt_h  = 0x8100u;
-        vram_offs    += 0x1000u;
-        i += 1u;
-    }
+    textbox_bg_init( &dword_0855C680 );
     
-    io_dma3sad   = &zero;
-    io_dma3dad   = vram_offs;
-    io_dma3cnt_l = 0x800u;
-    io_dma3cnt_h = 0x8100u;
-    zero         = 0u;
-    io_dma3sad   = &zero;
-    io_dma3dad   = 0x7000000;
-    io_dma3cnt_l = 0x100;
-    io_dma3cnt_h = 0x8500;
-    zero         = 0u;
-    io_dma3sad   = &zero;
-    io_dma3dad   = 0x5000000;
-    io_dma3cnt_l = 0x200;
-    io_dma3cnt_h = 0x8100;
+    sub_080045B0( );
     
-    lcd_io_set(0, 0);
+    lcd_io_set( 0x40u, 0u );
+    lcd_io_set( 0x44u, 0u );
+    lcd_io_set( 0x48u, 1u );
+    lcd_io_set( 0x4Au, 0x23u );
+    lcd_io_set( 0x50u, 0xC1u );
+    lcd_io_set( 0x52u, 0u );
+    lcd_io_set( 0x54u, 4u );
+    lcd_io_set( 0u,    0x3040u );
     
-    sub_080017BC(0);
-    
-    bg_vram_setup(0, &dword_0855C698, 2u);
-    
-    bgid_mod_x_offset(0, 0, 0);
-    bgid_mod_y_offset(0, 0, 0);
-    bgid_mod_x_offset(1u, 0, 0);
-    bgid_mod_y_offset(1u, 0, 0);
-    bgid_mod_x_offset(2u, 0, 0);
-    bgid_mod_y_offset(2u, 0, 0);
-    bgid_mod_x_offset(3u, 0, 0);
-    bgid_mod_y_offset(3u, 0, 0);
-    
-    textbox_bg_init(&dword_0855C680);
-    
-    sub_080045B0();
-    
-    lcd_io_set(0x40u, 0);
-    lcd_io_set(0x44u, 0);
-    lcd_io_set(0x48u, 1u);
-    lcd_io_set(0x4Au, 0x23u);
-    lcd_io_set(0x50u, 0xC1u);
-    lcd_io_set(0x52u, 0);
-    lcd_io_set(0x54u, 4u);
-    lcd_io_set(0, 0x3040u);
-    
-    gpu_sync_bg_show(0);
-    gpu_sync_bg_show(1u);
+    gpu_sync_bg_show( 0 );
+    gpu_sync_bg_show( 1u );
     
     super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 2
+ * DESCRIPTION: This method loads the tiles address for an rbox, and copies the
+ *              tileset into BG1.
+ */
+
+static inline void case_2( void )
+{
+    boot_fade_sequence( );
+    
+    dma_task_delete_something( );
+    
+    tasks_init( );
+    
+    obj_and_aux_reset_all( );
+    
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 3
+ * DESCRIPTION: This method loads the tiles address for an rbox, and copies the
+ *              tileset into the BG ID specified by RBOX_TILES_BGID.
+ */
+
+#define RBOX_TILES_BGID 1u
+
+static inline void case_3( void )
+{
+    void* tiles_addr = load_rbox_tiles_addr( *((u8*)ptr_03005DA4) >> 3u );
+    
+    gpu_copy_to_tileset( RBOX_TILES_BGID, *tiles_addr, 0x120u, 0x1A2u );
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 4
+ * DESCRIPTION: This method loads the background palette and the current rbox
+ *              palette from ROM into PAL.
+ */
+
+static inline void case_4( void )
+{
+    void* tiles_addr = load_rbox_tiles_addr( *((u8*)ptr_03005DA4) >> 3u );
+    
+    gpu_pal_apply( (const u8*)opts_main_menu_bg_pal, 0u,    2u );
+    gpu_pal_apply( *((const u8**)tiles_addr + 4u),   0x70u, 0x20u );
+    
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 5
+ * DESCRIPTION: This method loads the special text palette from ROM into PAL.
+ */
+
+static inline void case_5( void )
+{
+    gpu_pal_apply( (const u8*)optsmenu_special_text_pal, 0x10u, 0x20u );
+    
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 6
+ * DESCRIPTION: This method enables a faux rbox for the menu text, and does
+ *              something involving the creation of its tilemap using its rbox
+ *              ID.
+ */
+
+static inline void case_6( void )
+{
+    u32 rbox_id = enable_rbox( 0 );
+    
+    optsmenu_tilemap_load_sth2( rbox_id );
+    
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 7
+ * DESCRIPTION: This method does nothing on its own, however it increments the
+ *              multipurpose tracker to keep the switch moving forward.
+ */
+
+static inline void case_7( void )
+{
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 8
+ * DESCRIPTION: This method enables the main rbox and does something involving
+ *              the creation of its tilemap using its rbox ID.
+ */
+
+static inline void case_8( void )
+{
+    u32 rbox_id = enable_rbox( 1u );
+    
+    optsmenu_tilemap_load_sth( rbox_id );
+    
+    case_9( );
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 9
+ * DESCRIPTION: This method simply calls a function that does something
+ *              involving the menu’s tilemap.
+ */
+
+static inline void case_9( void )
+{
+    optsmenu_tilemap_sth( );
+    
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 10
+ * DESCRIPTION: This method loads the data for the options menu into an unknown
+ *              task struct, and then calls a collection of methods to set up
+ *              the texts for the options menu; after this it flushes the rbox
+ *              to VRAM.
+ */
+
+static inline void case_10( void )
+{
+    void* task_ref = &tasks[10u * (u8)task_add(
+        (void*)optsmenu_change_item_addtask, 0u )];
+    
+    u32 text_speed_sth = *((u8*)dword_03005DA4) & 7u;
+    
+    *((u8*)task_ref + 4u)  = 0u;
+    *((u8*)task_ref + 5u)  = text_speed_sth;
+    *((u8*)task_ref + 6u)  = *(u8*)(dword_03005D90 + 21u) << 29u >> 31u;
+    *((u8*)task_ref + 7u)  = *(u8*)(dword_03005D90 + 21u) << 30u >> 31u;
+    *((u8*)task_ref + 8u)  = *(u8*)(dword_03005D90 + 21u) & 1u;
+    *((u8*)task_ref + 9u)  = *(u8*)(dword_03005D90 + 19u);
+    *((u8*)task_ref + 10u) = *(u8*)(dword_03005D90 + 20u) >> 3u;
+    
+    optsmenu_loadtext_textspeed( text_speed_sth );
+    
+    optsmenu_loadtext_battlescene( *((u8*)task_ref + 12u) );
+    
+    optsmenu_loadtext_battlestyle( *((u8*)task_ref + 14u) );
+    
+    optsmenu_loadtext_sound( *((u8*)task_ref + 16u) );
+    
+    optsmenu_loadtext_buttons( *((u8*)task_ref + 18u) );
+    
+    optsmenu_loadtext_menustyle( *((u8*)task_ref + 20u) );
+    
+    optsmenu_load_highlight_overlay( *((u8*)task_ref + 8u) );
+    
+    rboxid_to_vram(RBOX_TILES_BGID, 3u);
+    
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
+}
+
+/** ============================ F U N C T I O N ============================ *
+ * 
+ * TITLE:       Options Menu loading switch, case 11
+ * DESCRIPTION: This method fades the screen back to normal and then sets the
+ *              V-Blank handler and callback2 to their respective generic ones.
+ */
+
+static inline void case_11( void )
+{
+    fade_screen( 0xFFFFFFFFu, 0u, 0x10u, 0u, 0u );
+    
+    vblank_handler_set( optsmenu_load_vblanker );
+    
+    set_callback2( optsmenu_load_callback );
+    
+    super.multi_purpose_state_tracker += 1u;
+    
+    return;
 }
