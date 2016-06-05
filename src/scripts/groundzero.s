@@ -20,7 +20,7 @@
 .ident "AS: (devkitARM release 45) 2.25.1"
 
 .include "pokescript.s"
-.include "definitions.s"
+.include "defs.s"
 
 .section .data
 .balign 4, 0

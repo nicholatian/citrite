@@ -16,8 +16,8 @@
 @@                                                                           @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.ifndef __definitions_asm__
-.equ __definitions_asm__, 1
+.ifndef __GF_DEFS_S__
+.equ __GF_DEFS_S__, 1
 
 @ Defines segment
 @ Holds preprocessor definitions for the assembly.
