@@ -30,6 +30,8 @@
 #ifndef __GF_BPEE_H__
 #define __GF_BPEE_H__
 
+#include <gf/bpee/state.h>
+
 void boxPrint(u8 bgmaybe, u8 font, u8 x, u8 y, u32 bar, u32 baz, u32 txtpointer)
 {
 	int (*func3)(u8,u8,u8,u8,u32,u32,u32) = (int (*)(void))0x08199E64+1;
@@ -239,7 +241,9 @@ const u8 textboxData[12] = { /* BG number, X pos, Y pos, width, height, palette 
 #define pal_fade_control                    (*(u8*)0x2037FD4)
 #define pal_green_yellow_gradient          (*(u16*)0x855C6A0)
 
-#define dword_0855C680 (*(u32*)0x855C680)
-#define dword_0855C698 (*(u32*)0x855C698)
+#define dword_0855C680   (*(u32*)0x855C680)
+#define dword_0855C698   (*(u32*)0x855C698)
+#define dword_03005D90   (*(u32*)0x3005D90)
+#define ptr_03005DA4   (*(void**)0x3005DA4)
 
 #endif /* __GF_BPEE_H__ */
