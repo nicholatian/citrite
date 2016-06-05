@@ -34,6 +34,9 @@
 .equ tscreen_ioreg_b, 0x0103
 .equ tscreen_ioreg_c, 0x0102
 
+.include "gf/bpee.s"
+.include "gba/memory.s"
+
 @ =========================== S U B R O U T I N E =========================== @
 @
 @ TITLE:       Titlescreen Loading Sequence
