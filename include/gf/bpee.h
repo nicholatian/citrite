@@ -239,4 +239,7 @@ const u8 textboxData[12] = { /* BG number, X pos, Y pos, width, height, palette 
 #define pal_fade_control                    (*(u8*)0x2037FD4)
 #define pal_green_yellow_gradient          (*(u16*)0x855C6A0)
 
+#define dword_0855C680 (*(u32*)0x855C680)
+#define dword_0855C698 (*(u32*)0x855C698)
+
 #endif /* __GF_BPEE_H__ */
