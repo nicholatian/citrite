@@ -19,6 +19,8 @@
 .file "pokemenu/switch.s"
 .ident "AS: (devkitARM release 45) 2.25.1"
 
+.include "gf/bpee.s"
+
 @ ============================ S U B R O U T I N E ============================
 @
 @ TITLE:       Pokémenu Graphics Loader
