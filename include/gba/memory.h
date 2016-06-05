@@ -30,20 +30,20 @@
 #ifndef __GBA_MEMORY_H__
 #define __GBA_MEMORY_H__
 
-#define io_dma0sad                         (*(u32*)0x40000B0)
-#define io_dma0dad                         (*(u32*)0x40000B4)
+#define io_dma0sad                         ((void*)0x40000B0)
+#define io_dma0dad                         ((void*)0x40000B4)
 #define io_dma0cnt_l                       (*(u16*)0x40000B8)
 #define io_dma0cnt_h                       (*(u16*)0x40000BA)
-#define io_dma1sad                         (*(u32*)0x40000BC)
-#define io_dma1dad                         (*(u32*)0x40000C0)
+#define io_dma1sad                         ((void*)0x40000BC)
+#define io_dma1dad                         ((void*)0x40000C0)
 #define io_dma1cnt_l                       (*(u16*)0x40000C4)
 #define io_dma1cnt_h                       (*(u16*)0x40000C6)
-#define io_dma2sad                         (*(u32*)0x40000C8)
-#define io_dma2dad                         (*(u32*)0x40000CC)
+#define io_dma2sad                         ((void*)0x40000C8)
+#define io_dma2dad                         ((void*)0x40000CC)
 #define io_dma2cnt_l                       (*(u16*)0x40000D0)
 #define io_dma2cnt_h                       (*(u16*)0x40000D2)
-#define io_dma3sad                         (*(u32*)0x40000D4)
-#define io_dma3dad                         (*(u32*)0x40000D8)
+#define io_dma3sad                         ((void*)0x40000D4)
+#define io_dma3dad                         ((void*)0x40000D8)
 #define io_dma3cnt_l                       (*(u16*)0x40000DC)
 #define io_dma3cnt_h                       (*(u16*)0x40000DE)
 
