@@ -23,8 +23,7 @@ INSTPATH   := /media/cdn/.instance
 DEPLOYPATH := /media/remote/arc/citrite
 SRCFILES   := $(shell cd src && find . -type f -name '*.c' && cd ..)
 ASMFILES   := $(shell cd src && find . -type f -name '*.s' && cd ..)
-ASMINCDIR  := include
-SRCINCDIR  := $(RHPATH)/include
+INCLUDEDIR := include
 LIBDIR     := $(RHPATH)/lib
 EMERALDROM := rom/emer.gba # Change if elsewhere
 
@@ -47,7 +46,7 @@ PATCHER := $(PY) util/ipsx.py
 UUIDGEN := cat /proc/sys/kernel/random/uuid
 
 ASFLAGS  := -acd -mcpu=arm7tdmi -march=armv4t -mthumb -mthumb-interwork -I \
-$(ASMINCDIR) -mlittle-endian -EL --fix-v4bx -meabi=5 -mapcs-32
+$(INCLUDEDIR) -mlittle-endian -EL --fix-v4bx -meabi=5 -mapcs-32
 CCFLAGS  := -ansi -fauto-inc-dec -fcompare-elim -fcprop-registers -fdce \
 -fdefer-pop -fdelayed-branch -fdse -fguess-branch-probability \
 -fif-conversion2 -fif-conversion -fipa-pure-const -fipa-profile \
@@ -68,7 +67,7 @@ CCFLAGS  := -ansi -fauto-inc-dec -fcompare-elim -fcprop-registers -fdce \
 -fvect-cost-model -fipa-cp-clone -ffast-math -fno-protect-parens \
 -fstack-arrays -fforward-propagate -finline-functions-called-once \
 -fmerge-all-constants -fmodulo-sched -fmodulo-sched-allow-regmoves -fgcse-sm \
--fgcse-las -funsafe-loop-optimizations -fconserve-stack -I$(SRCINCDIR) \
+-fgcse-las -funsafe-loop-optimizations -fconserve-stack -I$(INCLUDEDIR) \
 -iquote src -mthumb -mthumb-interwork -mlong-calls -O2 -c -w
 LDFLAGS  := -nostdlib -T etc/gba.ld -T etc/bpee.ld
 GFXFLAGS := -m -ftb -fh!

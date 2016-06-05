@@ -20,7 +20,7 @@
 .ident "AS: (devkitARM release 45) 2.25.1"
 
 .include "mapstruct.s"
-.include "definitions.s"
+.include "defs.s"
 
 .equ MUSIC_GROUNDZERO, ISLAND_CAVE
 .equ MUSIC_INSIDE, FORTREE_CITY
