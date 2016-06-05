@@ -27,78 +27,24 @@
  * under the License.                                                        * 
 \*****************************************************************************/
 
-#ifndef __GF_OBJOAM_H__
-#define __GF_OBJOAM_H__
+#ifndef __GBA_MEMORY_H__
+#define __GBA_MEMORY_H__
 
-#include "../gba/lcd.h"
+#define io_dma0sad                         (*(u32*)0x40000B0)
+#define io_dma0dad                         (*(u32*)0x40000B4)
+#define io_dma0cnt_l                       (*(u16*)0x40000B8)
+#define io_dma0cnt_h                       (*(u16*)0x40000BA)
+#define io_dma1sad                         (*(u32*)0x40000BC)
+#define io_dma1dad                         (*(u32*)0x40000C0)
+#define io_dma1cnt_l                       (*(u16*)0x40000C4)
+#define io_dma1cnt_h                       (*(u16*)0x40000C6)
+#define io_dma2sad                         (*(u32*)0x40000C8)
+#define io_dma2dad                         (*(u32*)0x40000CC)
+#define io_dma2cnt_l                       (*(u16*)0x40000D0)
+#define io_dma2cnt_h                       (*(u16*)0x40000D2)
+#define io_dma3sad                         (*(u32*)0x40000D4)
+#define io_dma3dad                         (*(u32*)0x40000D8)
+#define io_dma3cnt_l                       (*(u16*)0x40000DC)
+#define io_dma3cnt_h                       (*(u16*)0x40000DE)
 
-typedef struct
-{
-    u8          y;
-    u8          flags1;
-    u8          x;
-    u8          msb_of_x_and_flags2;
-    obj_attr2_t attr2;
-    union
-    {
-        obj_attr1a_t rotscale;
-        obj_attr1b_t hv_flip;
-    };
-    attr1;
-}
-oam_t PACK;
-
-typedef struct
-{
-    u32 x;
-    u32 y;
-}
-coords32_t;
-
-typedef struct
-{
-    u16 x;
-    u16 y;
-}
-coords16_t;
-
-typedef struct
-{
-    u8 x;
-    u8 y;
-}
-coords8_t;
-
-typedef struct
-{
-    oam_t      final_oam;
-    void*      anim_table;
-    void*      gfx_table;
-    void*      rotscale_table;
-    void*      templ;
-    u32        unknown0;
-    void*      callback;
-    coords16_t pos1;
-    coords16_t pos2;
-    coords8_t  pos_neg_center;
-    u8         anim_number;
-    u8         anim_frame;
-    u8         anim_delay_countdown;
-    u8         anim_unk_counter;
-    u16        private0;
-    u16        private1;
-    u16        private2;
-    u16        private3;
-    u16        private4;
-    u16        private5;
-    u16        private6;
-    u16        private7;
-    u8         bitfield2;
-    u8         bitfield;
-    u16        anim_data_offset;
-    u8         unknown1;
-    u8         y_height_related;
-}
-obj_t;
-
-#endif /* __GF_OBJOAM_H__ */
+#endif // __GBA_MEMORY_H__

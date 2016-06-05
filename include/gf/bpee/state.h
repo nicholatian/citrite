@@ -57,4 +57,29 @@
 #define SAVEBLOCK1    (*(u32*)0x3005D90)
 #define PLAYER_GENDER (*(u8*)(SAVEBLOCK1 + 0x8))
 
+typedef struct
+{
+    void*    callback1;
+    void*    callback2;
+    void*    callback2_backup;
+    void*    callback5_vblank;
+    void*    hblank_callback;
+    u32      field_14;
+    u32      field_18;
+    u32      bits_to_wait_for;
+    void*    ptr_vblank_counter;
+    u32      field_24;
+    u16      buttons0_held;
+    u16      buttons1_new;
+    u16      buttons2_held_remapped;
+    u16      buttons3_new_remapped;
+    u16      buttons4_new_and_keyrepeat;
+    u16      keypad_countdown;
+    u32      unused_apparently;
+    sprite_t sprites[128];
+    u8       multi_purpose_state_tracker
+    u8       gpu_sprites_upload_skip;
+}
+superstate_t PACK;
+
 #endif /* __GF_STATE_H__ */

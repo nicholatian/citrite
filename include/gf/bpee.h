@@ -232,4 +232,11 @@ const u8 textboxData[12] = { /* BG number, X pos, Y pos, width, height, palette 
         0x00, 0x03, 0x0F, 0x18, 0x04, 0x0F, 0x94, 0x02, 0xFF, 0x0, 0x0, 0x0
 };
 
+#define tasks                             (*(void*)0x3005E00)
+#define super                     (*(superstate_t*)0x30022C0)
+#define textflags                         (*(void*)0x3003014)
+#define last_used_item_maybe              (*(void*)0x203CE7C)
+#define pal_fade_control                    (*(u8*)0x2037FD4)
+#define pal_green_yellow_gradient          (*(u16*)0x855C6A0)
+
 #endif /* __GF_BPEE_H__ */

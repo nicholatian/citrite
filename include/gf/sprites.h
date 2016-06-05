@@ -46,4 +46,15 @@ const unsigned int tile0AnimTable = &tile0Animation;
 const ObjTemplate size8Template = {2,1,&size8Oam,&tile0AnimTable,0,dummyAnimData,dummyAnimRoutine,0xFF};
 const ObjTemplate size32Template = {2,1,&size32Oam,&tile0AnimTable,0,dummyAnimData,dummyAnimRoutine,0xFF};
 
+typedef struct
+{
+    u8  y;
+    u8  flags_1;
+    u8  x;
+    u8  msb_of_x_and_flags2;
+    u16 attr2;
+    u16 rotscaleinfo;
+}
+sprite_t PACK;
+
 #endif /* __GF_SPRITES_H__ */

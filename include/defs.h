@@ -19,6 +19,10 @@
 #ifndef __CIT_DEFINITIONS_H__
 #define __CIT_DEFINITIONS_H__
 
+#define PACK __attribute__((__packed__))
+#define ALIGN(x) __attribute__((__aligned(x)))
+#define WALIGN __attribute__((__aligned(4)))
+
 /* Defines segment */
 /* Holds preprocessor definitions for the assembly. */
 
@@ -126,8 +130,6 @@
 #define GIRL 1
 #define NO 0
 #define YES 1
-#define true YES
-#define false NO
 
 #define HEAL_POKEMON 0
 #define CHOOSE_POKEMON 0x9C
