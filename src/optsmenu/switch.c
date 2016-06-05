@@ -72,7 +72,6 @@ void optsmenu_switch( void )
 
 static inline void case_0( void )
 {
-    /* This is referenced elsewhere, see set_vblanker label */
     vblank_handler_set(NULL);
     
     super.multi_purpose_state_tracker += 1u;
