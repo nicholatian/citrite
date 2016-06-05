@@ -400,24 +400,32 @@ insert:
 	@$(INSERT) etc/hooks.list $(EMERALDROM) bin/citrite.bin bin/citrite.elf \
 	bin/citrite.gba
 
+# The patcher is still bugged
 patch:
 	$(PATCHER) -c $(EMERALDROM) bin/citrite.gba bin/patch.ipsx
 
+# Don’t expect this to work if you’re not Alex :P
 deploymajor: patch _incrmajor _deploy
 
+# Don’t expect this to work if you’re not Alex :P
 deployminor: patch _incrminor _deploy
 
+# Don’t expect this to work if you’re not Alex :P
 deploypatch: patch _incrpatch _deploy
 
+# Don’t expect this to work if you’re not Alex :P
 _incrmajor:
 	@$(VERSION) major
 
+# Don’t expect this to work if you’re not Alex :P
 _incrminor:
 	@$(VERSION) minor
 
+# Don’t expect this to work if you’re not Alex :P
 _incrpatch:
 	@$(VERSION) patch
 
+# Don’t expect this to work if you’re not Alex :P
 _deploy:
 	@VER=`$(VERSION)`
 	@mkdir -p deploy
@@ -429,6 +437,7 @@ _deploy:
 	@rm -rf citrite-$$VER
 	@cp bin/citrite.zip $(DEPLOYPATH)/citrite-$$VER.zip
 
+# Don’t expect this to work if you’re not Alex :P
 instance:
 	@$(UUIDGEN) > tmp
 	@mkdir $(INSTPATH)/`cat tmp`
